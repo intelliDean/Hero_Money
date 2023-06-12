@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>My Email Template</title>
+</head>
+<body>
+<h4>Dear <span th:text="${email}"/>,</h4><br/><br/>
+<p>
+    <strong>Welcome to Hero Money</strong> – where we make your dreams and fantasies come true by providing financial
+    assistance. We handle the financial aspect of your dreams while you focus on achieving them. With us, success is
+    guaranteed.<br/>
+
+    As a valued customer, we are thrilled to have you as part of our community. Our mission is to support you
+    financially in pursuing your dreams and fantasies. Together, let's embark on this journey.<br/>
+</p>
+<p>
+    To begin, please use the token provided to create your account and gain access to our range of products. We
+    understand the significance of finance in fulfilling your aspirations, and we can't wait to witness your growth.<br/><br/>
+</p>
+<h1 th:text="${token}"/><br/>
+<p>
+    Thank you for choosing Hero Money, and welcome aboard!<br/><br/>
+</p>
+
+<p>
+    Best regards,<br/><br/>
+    <strong>Adewunmi Ajoke</strong><br/>
+    Experience Manager
+</p>
+</body>
+</html>
