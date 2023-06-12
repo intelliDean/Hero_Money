@@ -63,8 +63,6 @@ public class HeroAuthorizationFilter extends OncePerRequestFilter {
                             .setAuthentication(
                                     authenticationToken
                             );
-                    AuthenticatedUser authenticatedUser = (AuthenticatedUser)
-                            SecurityContextHolder.getContext().getAuthentication().getPrincipal();
                 }
             }
         }

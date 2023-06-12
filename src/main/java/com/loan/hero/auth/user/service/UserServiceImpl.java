@@ -74,7 +74,7 @@ public class UserServiceImpl implements UserService {
                             .getPrincipal();
             return authenticatedUser.getUser();
         } catch (Exception ex) {
-            throw new UserNotFoundException(ex.getMessage());
+            throw new UserNotFoundException();
         }
     }
 

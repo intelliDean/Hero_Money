@@ -35,8 +35,8 @@ public class AppConfiguration {
         return WebClient.builder().build();
     }
 
-    @Bean
-    public ObjectMapper objectMapper() {
-        return new ObjectMapper();
-    }
+//    @Bean
+//    public ObjectMapper objectMapper() {
+//        return new ObjectMapper();
+//    }
 }
