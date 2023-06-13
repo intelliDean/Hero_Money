@@ -32,8 +32,8 @@ access_expiration: ${access_token}
 refresh_expiration: ${refresh_token}
 
 
-cloudinary_name: ${cloudinary_name}
-cloudinary_api_key: ${cloudinary_key}
-cloudinary_api_secret: ${cloudinary_secret}
+cloudinary_name: ${cloud_name}
+cloudinary_api_key: ${cloud_key}
+cloudinary_api_secret: ${cloud_secret}
 
 Jwt_Secret_Key: ${SECRET_KEY}

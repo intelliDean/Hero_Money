@@ -29,11 +29,14 @@ public class User {
 
     private String password;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private Address address;
+
+    private String userImage;
 
     private String phoneNumber;
 
+    @Enumerated(EnumType.STRING)
     private Set<Role> roles;
 
     private final LocalDateTime registeredAt = LocalDateTime.now();

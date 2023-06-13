@@ -23,9 +23,9 @@ public class UserController {
 
     @GetMapping("current")
     @Operation(summary = "Get current user logged in")
-    public ResponseEntity<User> currentUser() {
+    public ResponseEntity<UserDTO> currentUser() {
         return ResponseEntity.ok(
-                userService.getCurrentUser()
+                userService.currentUser()
         );
     }
 

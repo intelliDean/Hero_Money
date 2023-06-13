@@ -16,7 +16,6 @@ public interface UserService {
             HttpServletResponse response
     ) throws IOException;
 
-
     User getCurrentUser();
 
     UserDTO currentUser();

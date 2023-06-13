@@ -32,4 +32,8 @@ public class SignUpRequest {
     @NotBlank(message = "Password cannot be blank")
     @Size(max = 20, min = 8)
     private String password;
+
+    @NotNull(message = "Password cannot be null")
+    @NotBlank(message = "Password cannot be blank")
+    private String dateOfBirth;
 }

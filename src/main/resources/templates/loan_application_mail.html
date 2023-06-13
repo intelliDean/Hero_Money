@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Application Mail</title>
+</head>
+<body>
+<h4>Dear <span th:text="${name}"></span>,</h4><br/><br/>
+<p>
+    Thank you for applying for a loan with Hero Money. We have received your application for a loan amount of
+    <strong>₦<span
+            th:text="${amount}"></span></strong>. We
+    would like to inform you that the status of your application is currently <strong><span
+        th:text="${status}"></span></strong>. Our dedicated loan officer is
+    currently reviewing your application and will provide you with an update as soon as the review process is complete.
+</p>
+<p>
+    We understand the importance of your loan application and assure you that our team is working diligently to process
+    it efficiently. If you have any questions or require further information, please feel free to reach out to us. We
+    are here to assist you throughout the application process.
+</p>
+<p>
+    Thank you for choosing Hero Money as your financial partner. We appreciate your patience and look forward to serving
+    your financial needs.
+</p>
+
+<p>
+    Best regards,<br/><br/>
+    <strong>Adewunmi Ajoke</strong><br/>
+    Product Manager
+</p>
+</body>
+</html>

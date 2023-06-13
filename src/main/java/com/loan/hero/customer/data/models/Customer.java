@@ -1,7 +1,5 @@
 package com.loan.hero.customer.data.models;
 
-import com.loan.hero.auth.user.data.models.JobStatus;
-import com.loan.hero.auth.user.data.models.MaritalStatus;
 import com.loan.hero.auth.user.data.models.User;
 import jakarta.persistence.*;
 import lombok.*;
@@ -25,18 +23,25 @@ public class Customer {
 
     private int age;
 
+    @Enumerated(EnumType.STRING)
     private MaritalStatus maritalStatus;
 
+    @Enumerated(EnumType.STRING)
     private JobStatus jobStatus;
 
     private BigDecimal salary;
 
     private String companyName;
 
-    private String paySlip;
+    @Enumerated(EnumType.STRING)
+    private Gender gender;
 
     private String formOfIdentity;
 
-    private String accountStatement;
+    private boolean complete;
 
+//    private String paySlip;
+
+
+//    private String accountStatement;
 }
