@@ -39,9 +39,4 @@ public class Customer {
     private String formOfIdentity;
 
     private boolean complete;
-
-//    private String paySlip;
-
-
-//    private String accountStatement;
 }

@@ -41,7 +41,6 @@ public class HeroApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(HeroApplication.class, args);
-        log.info("::: Hero Server Running :::");
+         log.info("::: Hero Server Running :::");
     }
-
 }

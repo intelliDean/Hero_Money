@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Invite</title>
+</head>
+<body>
+<h4>Dear <span th:text="${fullName}"/>,</h4><br/>
+<p>
+    We are delighted to invite you to join our team at Hero Money as a Loan Officer. Your exceptional skills and
+    experience will undoubtedly make a valuable contribution to our company.<br/><br/>
+
+    We are pleased to inform you that you have been assigned an employee ID, which will serve as your unique
+    identification number within our organization. To activate your privileges and gain access to our Loan Officer
+    portal, please use the token provided below to activate your account:<br/><br/>
+</p>
+
+
+
+<p>Employee ID: <h1 th:text="${id}"/><br/><br>
+<p>Token: <h1 th:text="${token}"/><br/><br/>
+<p>
+    Once your account is activated, you will be able to log in to our Loan Officer portal. This platform will provide
+    you with the necessary tools to oversee and manage various aspects of our company's loan operations.<br/><br/>
+     We have complete confidence in your ability to excel in this role and are excited to have you on board. Together, we
+    will strive to further the success of Hero Money.<br/><br/>
+</p>
+<p>
+    We have complete confidence in your ability to excel in this role, and we are excited to have you join our team.
+    Together, we will work towards furthering the success of Hero Money.<br/>
+
+    If you have any questions or require assistance, please do not hesitate to reach out to us. We are here to support
+    you every step of the way.<br/><br/>
+</p>
+
+<p>
+    Best regards,<br/><br/>
+    <strong>Augustine William</strong><br/>
+    Talent Manager
+</p>
+</body>
+</html>

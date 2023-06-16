@@ -1,6 +1,5 @@
 package com.loan.hero.auth.security.filter;
 
-import com.loan.hero.auth.security.user.AuthenticatedUser;
 import com.loan.hero.auth.security.utility.JwtService;
 import com.loan.hero.auth.user.service.HeroTokenService;
 import jakarta.servlet.FilterChain;

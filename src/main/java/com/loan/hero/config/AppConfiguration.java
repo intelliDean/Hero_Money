@@ -42,11 +42,6 @@ public class AppConfiguration {
     }
 
     @Bean
-    public WebClient webClient () {
-        return WebClient.builder().build();
-    }
-
-    @Bean
     public Cloudinary cloudinary() {
         return new Cloudinary(
                 ObjectUtils.asMap(
@@ -55,13 +50,13 @@ public class AppConfiguration {
                         "api_secret", apiSecret));
     }
 
-//    @Bean
-//    public ModelMapper mapper() {
-//        ModelMapper mapper = new ModelMapper();
-//        mapper.getConfiguration()
-//                .setFieldMatchingEnabled(true)
-//                .setFieldAccessLevel(PRIVATE)
-//                .setMatchingStrategy(STANDARD);
-//        return mapper;
-//    }
+    @Bean
+    public ModelMapper mapper() {
+        ModelMapper mapper = new ModelMapper();
+        mapper.getConfiguration()
+                .setFieldMatchingEnabled(true)
+                .setFieldAccessLevel(PRIVATE)
+                .setMatchingStrategy(STANDARD);
+        return mapper;
+    }
 }

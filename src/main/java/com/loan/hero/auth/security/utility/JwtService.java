@@ -1,6 +1,5 @@
 package com.loan.hero.auth.security.utility;
 
-import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;

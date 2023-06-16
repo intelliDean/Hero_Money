@@ -4,8 +4,6 @@ import com.loan.hero.auth.user.data.models.User;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.LocalDateTime;
-
 @Setter
 @Getter
 @Entity
@@ -18,7 +16,7 @@ public class LoanOfficer {
     @GeneratedValue
     private Long id;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private User user;
 
     private String employeeId;

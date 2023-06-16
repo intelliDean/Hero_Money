@@ -1,7 +1,6 @@
 package com.loan.hero.auth.user.controllers;
 
 import com.loan.hero.auth.user.data.dtos.UserDTO;
-import com.loan.hero.auth.user.data.models.User;
 import com.loan.hero.auth.user.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -9,7 +8,10 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
 
@@ -26,15 +28,6 @@ public class UserController {
     public ResponseEntity<UserDTO> currentUser() {
         return ResponseEntity.ok(
                 userService.currentUser()
-        );
-    }
-
-
-    @GetMapping("/user")
-    @Operation(summary = "Get a user by email")
-    public ResponseEntity<User> findUserByEmail(@RequestParam String email) {
-        return ResponseEntity.ok(
-                userService.findUserByEmail(email)
         );
     }
 

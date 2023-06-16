@@ -23,8 +23,6 @@ public class BrevoMailImpl implements MailService {
     @Value("${app.email}")
     private String appEmail;
 
-    private final WebClient webClient;
-
 
     @Override
     public String sendMail(EmailRequest emailRequest) {

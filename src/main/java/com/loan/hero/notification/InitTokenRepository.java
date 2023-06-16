@@ -11,5 +11,4 @@ public interface InitTokenRepository extends JpaRepository<InitToken, Long> {
             where token.email = :email and token.token = :token and token.revoked = false
             """)
     Optional<InitToken> findValidByTokenAndEmail(String token, String email);
-    Optional<InitToken> findByTokenAndEmail(String token,  String email);
 }

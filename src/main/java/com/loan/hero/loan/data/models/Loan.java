@@ -28,6 +28,8 @@ public class Loan {
 
     private BigDecimal loanAmount;
 
+    private int repaymentTerm;
+
     private BigDecimal interestRate;
 
     private LocalDateTime startDate;

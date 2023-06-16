@@ -1,9 +1,8 @@
 package com.loan.hero.auth.user.data.dtos;
 
+import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import com.loan.hero.auth.user.data.models.Address;
 import com.loan.hero.auth.user.data.models.Role;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -22,6 +21,7 @@ public class UserDTO {
 
     private String email;
 
+    @JsonUnwrapped
     private Address address;
 
     private Set<Role> roles;

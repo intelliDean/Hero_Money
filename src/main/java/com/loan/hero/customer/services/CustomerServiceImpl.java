@@ -1,5 +1,7 @@
 package com.loan.hero.customer.services;
 
+import com.loan.hero.agreement.data.model.LoanAgreement;
+import com.loan.hero.agreement.service.LoanAgreementService;
 import com.loan.hero.auth.security.utility.AuthenticationToken;
 import com.loan.hero.auth.security.utility.JwtService;
 import com.loan.hero.auth.user.data.models.Address;
@@ -8,12 +10,17 @@ import com.loan.hero.auth.user.data.models.User;
 import com.loan.hero.auth.user.service.HeroTokenService;
 import com.loan.hero.auth.user.service.UserService;
 import com.loan.hero.cloud_service.CloudService;
-import com.loan.hero.customer.data.dto.*;
+import com.loan.hero.customer.data.dto.request.Decision;
+import com.loan.hero.customer.data.dto.request.InitRequest;
+import com.loan.hero.customer.data.dto.request.SignUpRequest;
+import com.loan.hero.customer.data.dto.request.UpdateCustomerRequest;
+import com.loan.hero.customer.data.dto.response.AgreementDecision;
 import com.loan.hero.customer.data.dto.response.InitResponse;
 import com.loan.hero.customer.data.models.Customer;
 import com.loan.hero.customer.data.repositories.CustomerRepository;
 import com.loan.hero.exceptions.HeroException;
 import com.loan.hero.exceptions.UserNotFoundException;
+import com.loan.hero.hero_utility.HeroUtilities;
 import com.loan.hero.loan.data.dto.request.LoanRequest;
 import com.loan.hero.loan.data.dto.response.LoanDTO;
 import com.loan.hero.loan.data.models.Loan;
@@ -37,6 +44,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -44,20 +52,25 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import static com.loan.hero.auth.user.data.models.Role.COSTUMER;
+import static com.loan.hero.customer.data.dto.response.AgreementDecision.ACCEPT;
+import static com.loan.hero.customer.data.dto.response.AgreementDecision.REJECT;
+import static com.loan.hero.loan.data.models.LoanStatus.ACTIVE;
+import static com.loan.hero.loan.data.models.LoanStatus.CLOSED;
 
 
 @Service
 @AllArgsConstructor
 public class CustomerServiceImpl implements CustomerService {
+    private final LoanAgreementService loanAgreementService;
     private final CustomerRepository customerRepository;
     private final HeroTokenService heroTokenService;
     private final InitTokenService initTokenService;
-    private final LoanService loanService;
-    private final MailService mailService;
-    private final TemplateEngine templateEngine;
-    private final UserService userService;
-    private final CloudService cloudService;
     private final PasswordEncoder passwordEncoder;
+    private final TemplateEngine templateEngine;
+    private final CloudService cloudService;
+    private final LoanService loanService;
+    private final UserService userService;
+    private final MailService mailService;
     private final JwtService jwtService;
 
     @Override
@@ -65,10 +78,35 @@ public class CustomerServiceImpl implements CustomerService {
         if (customerRepository.existsByUserEmail(initRequest.getEmail())) {
             return InitResponse.LOGIN;
         }
-        String emailResponse = initTokenService.sendSignUpMail(initRequest.getEmail());
+        String emailResponse = sendSignUpMail(initRequest.getEmail());
         if (emailResponse != null)
             return InitResponse.SIGNUP;
         throw new HeroException("Registration failed");
+    }
+
+    private String sendSignUpMail(String email) {
+        String token = HeroUtilities.generateToken(7);
+        initTokenService.saveToken(
+                InitToken.builder()
+                        .token(token)
+                        .email(email)
+                        .build()
+        );
+
+        Context context = new Context();
+        context.setVariables(
+                Map.of(
+                        "email", email,
+                        "token", token
+                )
+        );
+        String content = templateEngine.process("customer_mail", context);
+        EmailRequest emailRequest = EmailRequest.builder()
+                .to(List.of(new MailInfo(email, email)))
+                .subject("Welcome to Hero Money")
+                .htmlContent(content)
+                .build();
+        return mailService.sendMail(emailRequest);
     }
 
     @Override
@@ -122,6 +160,7 @@ public class CustomerServiceImpl implements CustomerService {
         return customerRepository.findByUser(currentUser())
                 .orElseThrow(UserNotFoundException::new);
     }
+
     private User currentUser() {
         return userService.getCurrentUser();
     }
@@ -143,7 +182,7 @@ public class CustomerServiceImpl implements CustomerService {
     public LoanDTO apply(LoanRequest request) {
         Customer customer = getCurrentCustomer();
         if (!customer.isComplete()) {
-           throw new HeroException("Update your profile");
+            throw new HeroException("Complete profile update");
         }
         LoanDocuments loanDocuments = LoanDocuments.builder()
                 .paySlip(uploadImage(request.getPaySlip()))
@@ -156,6 +195,7 @@ public class CustomerServiceImpl implements CustomerService {
                 .loanPurpose(request.getLoanPurpose())
                 .loanDocuments(loanDocuments)
                 .paymentFrequency(request.getPaymentFrequency())
+                .repaymentTerm(request.getRepaymentTerm())
                 .applicationDate(LocalDateTime.now())
                 .loanStatus(LoanStatus.PENDING)
                 .build();
@@ -164,10 +204,42 @@ public class CustomerServiceImpl implements CustomerService {
         sendMail(customer, savedLoan);
 
         return LoanDTO.builder()
-                .message("Your application was successful.\nPlease check your email")
+                .message("Application successful! Please check your email")
                 .applicationDate(savedLoan.getApplicationDate())
                 .loanStatus(savedLoan.getLoanStatus())
                 .build();
+    }
+
+    @Override
+    public LoanStatus viewLoanStatus(Long loanId) {
+        Loan loan = loanService.findById(loanId);
+        return loan.getLoanStatus();
+    }
+
+//    @Override
+//    public Map<String, String> allLoansStatus(Long customerId) {
+//        return null;
+//    }
+
+    @Override
+    public Map<String, String> allLoansStatus() {
+        List<Loan> allLoansByCustomer = loanService.allLoansByCustomerId(
+                getCurrentCustomer().getId()
+        );
+
+        Map<String, String> allLoansStatus = new HashMap<>();
+        allLoansByCustomer.forEach(
+                loan -> allLoansStatus.put(
+                        loan.getId().toString(),
+                        loan.getLoanStatus().name()
+                )
+        );
+        return allLoansStatus;
+    }
+
+    @Override
+    public LoanAgreement viewAgreement(Long agreementId) {
+        return loanAgreementService.findById(agreementId);
     }
 
     private void sendMail(Customer customer, Loan savedLoan) {
@@ -210,16 +282,29 @@ public class CustomerServiceImpl implements CustomerService {
         customer.setGender(request.getGender());
         customer.setJobStatus(request.getJobStatus());
         customer.setMaritalStatus(request.getMaritalStatus());
-       // customer.setPaySlip(uploadImage(request.getPaySlip()));
-       // customer.setAccountStatement(uploadImage(request.getAccountStatement()));
         customer.setFormOfIdentity(uploadImage(request.getFormOfIdentity()));
         customer.setComplete(true);
         return customerRepository.save(customer);
+    }
 
-//        return new ModelMapper().map(
-//                customer,
-//                CustomerDTO.class
-//        );
+    @Override
+    public AgreementDecision agreementDecision(Decision decision) {
+        LoanAgreement loanAgreement = loanAgreementService.findById(decision.getLoanAgreementId());
+        switch (decision.getAgreementDecision()) {
+            case ACCEPT -> {
+                loanAgreement.setAgreed(true);
+                loanAgreement.getLoan().setLoanStatus(ACTIVE);
+                loanAgreementService.save(loanAgreement);
+                return ACCEPT;
+            }
+            case REJECT -> {
+                loanAgreement.setAgreed(false);
+                loanAgreement.getLoan().setLoanStatus(CLOSED);
+                loanAgreementService.save(loanAgreement);
+                return REJECT;
+            }
+        }
+        throw new HeroException();
     }
 
     private User updateUser(UpdateCustomerRequest request, Customer customer) {

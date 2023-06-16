@@ -39,7 +39,8 @@ public class SecurityConfiguration {
             "/api/v1/auth/login",
             "/api/v1/auth/signup",
             "/api/v1/customer/init",
-            "/api/v1/auth/admin",
+            "/api/v1/officer/invite",
+            "/api/v1/officer/update",
             "api/v1/customer/register"
     };
     private final String[] SWAGGERS = {"/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs", "/v3/api-docs/**"};

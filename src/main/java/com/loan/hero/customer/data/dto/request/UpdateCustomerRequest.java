@@ -1,11 +1,9 @@
-package com.loan.hero.customer.data.dto;
+package com.loan.hero.customer.data.dto.request;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.loan.hero.customer.data.models.Gender;
 import com.loan.hero.customer.data.models.JobStatus;
 import com.loan.hero.customer.data.models.MaritalStatus;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -44,8 +42,4 @@ public class UpdateCustomerRequest {
     private MultipartFile userImage;
 
     private MultipartFile formOfIdentity;
-
-   // private MultipartFile paySlip;
-
-   // private MultipartFile accountStatement;
 }

@@ -1,12 +1,9 @@
-package com.loan.hero.customer.data.dto;
+package com.loan.hero.customer.data.dto.response;
 
 import com.loan.hero.auth.user.data.dtos.UserDTO;
-import com.loan.hero.auth.user.data.models.User;
 import com.loan.hero.customer.data.models.Gender;
 import com.loan.hero.customer.data.models.JobStatus;
 import com.loan.hero.customer.data.models.MaritalStatus;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import lombok.*;
 
 import java.math.BigDecimal;
