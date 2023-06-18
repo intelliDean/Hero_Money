@@ -2,9 +2,11 @@ package com.loan.hero.notification;
 
 import com.loan.hero.notification.interfaces.InitTokenService;
 import lombok.AllArgsConstructor;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -27,5 +29,14 @@ public class InitTokenServiceImpl implements InitTokenService {
     @Override
     public Optional<InitToken> findByTokenAndEmail(String token, String email) {
         return initTokenRepository.findValidByTokenAndEmail(token, email);
+    }
+
+    @Scheduled(cron = "0 0 0 * * ?", zone = "Africa/Lagos")
+    private void deleteAllRevokedTokens() {
+        List<InitToken> allRevokedTokens =
+                initTokenRepository.findAllRevokedTokens();
+        if (!allRevokedTokens.isEmpty()) {
+            initTokenRepository.deleteAll(allRevokedTokens);
+        }
     }
 }

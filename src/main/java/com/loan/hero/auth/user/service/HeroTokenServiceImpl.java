@@ -3,13 +3,17 @@ package com.loan.hero.auth.user.service;
 import com.loan.hero.auth.user.data.models.HeroToken;
 import com.loan.hero.auth.user.data.repositories.HeroTokenRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
+
 @Service
 @AllArgsConstructor
 public class HeroTokenServiceImpl implements HeroTokenService {
     private final HeroTokenRepository heroTokenRepository;
+
     @Override
     public void saveToken(HeroToken heroToken) {
         heroTokenRepository.save(heroToken);
@@ -35,5 +39,14 @@ public class HeroTokenServiceImpl implements HeroTokenService {
         return getValidTokenByAnyToken(anyToken)
                 .map(heroToken -> !heroToken.isRevoked())
                 .orElse(false);
+    }
+
+    @Scheduled(cron = "0 0 0 * * ?", zone = "Africa/Lagos")
+    private void deleteAllRevokedTokens() {
+        List<HeroToken> allRevokedTokens =
+                heroTokenRepository.findAllRevokedTokens();
+        if (!allRevokedTokens.isEmpty()) {
+            heroTokenRepository.deleteAll(allRevokedTokens);
+        }
     }
 }
