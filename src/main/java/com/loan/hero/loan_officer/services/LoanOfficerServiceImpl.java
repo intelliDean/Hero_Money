@@ -159,7 +159,7 @@ public class LoanOfficerServiceImpl implements LoanOfficerService {
 
     private String uploadImage(MultipartFile file) {
         try {
-            return cloudService.uploadImage(file);
+            return cloudService.uploadFile(file);
         } catch (RuntimeException e) {
             throw new HeroException("Image upload failed");
         }

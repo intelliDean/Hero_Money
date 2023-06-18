@@ -11,6 +11,8 @@ spring:
       hibernate:
         format_sql: false
         dialect: org.hibernate.dialect.PostgreSQLDialect
+  profiles:
+    active: dev
 springdoc:
   swagger-ui:
     path: /swagger-ui.html

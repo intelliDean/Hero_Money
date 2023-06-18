@@ -93,16 +93,19 @@ public class CustomerServiceImpl implements CustomerService {
                         .build()
         );
 
+        int atIndex = email.indexOf("@");
+        String username = email.substring(0, atIndex);
+
         Context context = new Context();
         context.setVariables(
                 Map.of(
-                        "email", email,
+                        "username", username,
                         "token", token
                 )
         );
         String content = templateEngine.process("customer_mail", context);
         EmailRequest emailRequest = EmailRequest.builder()
-                .to(List.of(new MailInfo(email, email)))
+                .to(List.of(new MailInfo(username, email)))
                 .subject("Welcome to Hero Money")
                 .htmlContent(content)
                 .build();
@@ -169,7 +172,7 @@ public class CustomerServiceImpl implements CustomerService {
     public String uploadCustomerImage(MultipartFile image) {
         Customer customer = getCurrentCustomer();
         try {
-            String imageUrl = cloudService.uploadImage(image);
+            String imageUrl = cloudService.uploadFile(image);
             customer.getUser().setUserImage(imageUrl);
             customerRepository.save(customer);
             return "Image uploaded successfully";
@@ -264,7 +267,7 @@ public class CustomerServiceImpl implements CustomerService {
 
     private String uploadImage(MultipartFile file) {
         try {
-            return cloudService.uploadImage(file);
+            return cloudService.uploadFile(file);
         } catch (RuntimeException e) {
             throw new HeroException("Image upload failed");
         }
