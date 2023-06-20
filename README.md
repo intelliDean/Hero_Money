@@ -3,8 +3,7 @@
 This is a loan application built with Spring Boot, providing a platform for users to apply for loans and loan officers
 to review and approve/reject loan applications.
 
-# Features
-
+### Features
 * User Registration: Users can sign up for an account on the platform
 * User Authentication: Users can log in to the platform using their credentials
 * User Profile: Users can edit their profile information, including personal details and contact information.
@@ -18,8 +17,7 @@ to review and approve/reject loan applications.
 * Loan Agreement Generation: For approved loan applications, loan officers can generate loan agreements for the
   borrowers to review and sign.
 
-# Installation
-
+### Installation
 * Clone the repository:
   git clone https://github.com/intelliDean/Hero_Money.git
 * Configure the database settings, configure sendinblue/brevo with api key and mail url, configure cloudinary, input a
@@ -28,8 +26,7 @@ to review and approve/reject loan applications.
 * Build and run the application:
 * Access the application at http://localhost:8181
 
-Technologies Used
-
+### Technologies Used
 * Java
 * Spring Boot
 * Spring Security
@@ -38,7 +35,6 @@ Technologies Used
 * Cloudinary API
 * Thymeleaf
 
-# Contributing
-
+### Contributing
 Contributions are welcome! If you find any issues or have suggestions for improvements, please open an issue or submit a
 pull request.
