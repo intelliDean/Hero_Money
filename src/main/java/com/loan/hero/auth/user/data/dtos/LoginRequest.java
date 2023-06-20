@@ -1,8 +1,12 @@
 package com.loan.hero.auth.user.data.dtos;
 
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
+
+import static com.loan.hero.hero_utility.HeroUtilities.NOT_BLANK;
+import static com.loan.hero.hero_utility.HeroUtilities.NOT_NULL;
 
 @Setter
 @Getter
@@ -11,12 +15,12 @@ import lombok.*;
 @AllArgsConstructor
 public class LoginRequest {
 
-    @NotNull
-    @NotEmpty
+    @NotNull(message = NOT_NULL)
+    @NotBlank(message = NOT_BLANK)
     private String email;
 
-    @NotNull
-    @NotEmpty
+    @NotNull(message = NOT_NULL)
+    @NotBlank(message = NOT_BLANK)
     private String password;
 
 }

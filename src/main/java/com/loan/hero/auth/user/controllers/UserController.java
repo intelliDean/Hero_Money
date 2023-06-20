@@ -8,6 +8,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -31,7 +32,7 @@ public class UserController {
     }
     @PostMapping("/login")
     @Operation(summary = "Login")
-    public void login(@RequestBody LoginRequest request) {
+    public void login(@RequestBody @Valid LoginRequest request) {
         throw new HeroException("Authentication failed");
     }
 
