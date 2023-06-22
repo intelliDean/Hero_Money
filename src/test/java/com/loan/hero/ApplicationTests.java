@@ -10,7 +10,7 @@ import java.sql.SQLException;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
-class HeroApplicationTests {
+class ApplicationTests {
 
     @Test
     void contextLoads() {
