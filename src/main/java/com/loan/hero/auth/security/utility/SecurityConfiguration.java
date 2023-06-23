@@ -5,6 +5,7 @@ import com.loan.hero.auth.security.filter.HeroAuthenticateFilter;
 import com.loan.hero.auth.security.filter.HeroAuthorizationFilter;
 import com.loan.hero.auth.user.service.HeroTokenService;
 import lombok.AllArgsConstructor;
+import lombok.NonNull;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -21,6 +22,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.util.List;
 
@@ -51,11 +54,9 @@ public class SecurityConfiguration {
                 .csrf(
                         AbstractHttpConfigurer::disable
                 )
-                .cors(cors ->
-                        cors.configurationSource(
-                                corsConfigurationSource()
-                        )
-                )
+//                .cors(cors ->
+//                        cors.configurationSource(corsConfigurationSource())
+//                )
                 .exceptionHandling(exception ->
                         exception.authenticationEntryPoint(
                                 authenticationEntryPoint
@@ -113,5 +114,17 @@ public class SecurityConfiguration {
         configuration.setAllowCredentials(true);
         source.registerCorsConfiguration("/**", configuration);
         return source;
+    }
+
+    @Bean
+    public WebMvcConfigurer corsConfigurer() {
+        return new WebMvcConfigurer() {
+            @Override
+            public void addCorsMappings(@NonNull CorsRegistry registry) {
+                registry.addMapping("/**")
+                        .allowedOrigins("*")
+                        .allowedMethods("POST", "GET", "PUT", "PATCH", "DELETE");
+            }
+        };
     }
 }
