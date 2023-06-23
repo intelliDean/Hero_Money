@@ -44,7 +44,12 @@ public class SecurityConfiguration {
             "/api/v1/officer/update",
             "api/v1/customer/register"
     };
-    private final String[] SWAGGERS = {"/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs", "/v3/api-docs/**"};
+    private final String[] SWAGGERS = {
+            "/swagger-ui.html",
+            "/swagger-ui/**",
+            "/v3/api-docs",
+            "/v3/api-docs/**"
+    };
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
