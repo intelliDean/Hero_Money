@@ -51,12 +51,8 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity
-                .csrf(
-                        AbstractHttpConfigurer::disable
-                )
-//                .cors(cors ->
-//                        cors.configurationSource(corsConfigurationSource())
-//                )
+                .csrf(AbstractHttpConfigurer::disable)
+                .cors(AbstractHttpConfigurer::disable)
                 .exceptionHandling(exception ->
                         exception.authenticationEntryPoint(
                                 authenticationEntryPoint
@@ -116,15 +112,6 @@ public class SecurityConfiguration {
         return source;
     }
 
-    @Bean
-    public WebMvcConfigurer corsConfigurer() {
-        return new WebMvcConfigurer() {
-            @Override
-            public void addCorsMappings(@NonNull CorsRegistry registry) {
-                registry.addMapping("/**")
-                        .allowedOrigins("*")
-                        .allowedMethods("POST", "GET", "PUT", "PATCH", "DELETE");
-            }
-        };
-    }
+//
+
 }
