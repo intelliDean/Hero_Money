@@ -37,20 +37,6 @@ public class SecurityConfiguration {
     private final HeroTokenService heroTokenService;
     private final ObjectMapper objectMapper;
     private final JwtService jwtService;
-    private final String[] WHITE_LIST = {
-            "/api/v1/auth/login",
-            "/api/v1/auth/signup",
-            "/api/v1/customer/init",
-            "/api/v1/officer/invite",
-            "/api/v1/officer/update",
-            "api/v1/customer/register"
-    };
-    private final String[] SWAGGERS = {
-            "/swagger-ui.html",
-            "/swagger-ui/**",
-            "/v3/api-docs",
-            "/v3/api-docs/**"
-    };
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
@@ -74,10 +60,10 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(
                                 HttpMethod.POST,
-                                WHITE_LIST
-                        ).permitAll()
+                                WhiteList.freeAccess())
+                        .permitAll()
                         .requestMatchers(
-                                SWAGGERS
+                                WhiteList.swagger()
                         ).permitAll()
                         .anyRequest().authenticated())
                 .addFilterAt(
@@ -112,9 +98,8 @@ public class SecurityConfiguration {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOriginPatterns(Collections.singletonList("*"));
-        //configuration.setAllowedOrigins(List.of("*")); //Collections.singletonList("*")
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "PATCH"));
-        configuration.setAllowedHeaders(Collections.singletonList("*")); //Collections.singletonList("*")
+        configuration.setAllowedHeaders(Collections.singletonList("*"));
         configuration.setAllowCredentials(true);
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
