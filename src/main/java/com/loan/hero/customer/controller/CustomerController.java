@@ -30,7 +30,6 @@ import static org.springframework.http.MediaType.MULTIPART_FORM_DATA_VALUE;
 
 @RestController
 @AllArgsConstructor
-@CrossOrigin(origins = "*")
 @Tag(name = "Customer Controller")
 @RequestMapping("/api/v1/customer")
 public class CustomerController {

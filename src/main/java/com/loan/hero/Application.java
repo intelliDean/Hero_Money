@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.info.Contact;
 import io.swagger.v3.oas.annotations.info.Info;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.security.SecurityScheme;
+import io.swagger.v3.oas.annotations.servers.Server;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -22,6 +23,17 @@ import org.springframework.scheduling.annotation.EnableScheduling;
                         email = "info@heromoney@gmail.com"
                 )
         ),
+        servers = {
+                @Server(
+                        description = "railway",
+                        url = "https://heromoney-app.up.railway.app"
+                ),
+                @Server(
+                        description = "local",
+                        url = "http://localhost:8181"
+                )
+        },
+
         security = {
                 @SecurityRequirement(
                         name = "Bearer Auth"
