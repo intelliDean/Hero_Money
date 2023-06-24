@@ -25,13 +25,9 @@ import org.springframework.scheduling.annotation.EnableScheduling;
         ),
         servers = {
                 @Server(
-                        description = "railway",
-                        url = "https://heromoney-app.up.railway.app"
+                        description = "current",
+                        url = "/"
                 ),
-                @Server(
-                        description = "local",
-                        url = "http://localhost:8181"
-                )
         },
 
         security = {
