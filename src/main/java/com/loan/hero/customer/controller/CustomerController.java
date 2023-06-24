@@ -38,8 +38,7 @@ public class CustomerController {
     @PostMapping("init")
     @Operation(summary = "Beginning of signup")
     public ResponseEntity<InitResponse> initAccess(
-            @RequestBody
-            @Valid InitRequest initRequest
+            @RequestBody @Valid InitRequest initRequest
     ) {
         return ResponseEntity.ok(
                 customerService.initAccess(initRequest)
