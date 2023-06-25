@@ -68,16 +68,4 @@ public class JwtService {
             return false;
         }
     }
-
-
-//    public Boolean isValid(String token) {
-//       try {
-//            Jwts.parser()
-//                    .setSigningKey(key)
-//                    .parseClaimsJws(token);
-//            return true;
-//        } catch (JwtException e) {
-//           return false;
-//       }
-//    }
 }

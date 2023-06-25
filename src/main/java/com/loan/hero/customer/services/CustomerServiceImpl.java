@@ -33,6 +33,7 @@ import com.loan.hero.notification.dto.MailInfo;
 import com.loan.hero.notification.interfaces.InitTokenService;
 import com.loan.hero.notification.interfaces.MailService;
 import lombok.AllArgsConstructor;
+import org.hibernate.mapping.Collection;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -44,10 +45,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -105,7 +103,7 @@ public class CustomerServiceImpl implements CustomerService {
         );
         String content = templateEngine.process("customer_mail", context);
         EmailRequest emailRequest = EmailRequest.builder()
-                .to(List.of(new MailInfo(username, email)))
+                .to(Collections.singletonList(new MailInfo(username, email)))
                 .subject("Welcome to Hero Money")
                 .htmlContent(content)
                 .build();
@@ -218,11 +216,6 @@ public class CustomerServiceImpl implements CustomerService {
         Loan loan = loanService.findById(loanId);
         return loan.getLoanStatus();
     }
-
-//    @Override
-//    public Map<String, String> allLoansStatus(Long customerId) {
-//        return null;
-//    }
 
     @Override
     public Map<String, String> allLoansStatus() {
