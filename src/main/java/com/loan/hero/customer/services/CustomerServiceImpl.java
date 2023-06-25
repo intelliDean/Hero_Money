@@ -14,7 +14,7 @@ import com.loan.hero.customer.data.dto.request.Decision;
 import com.loan.hero.customer.data.dto.request.InitRequest;
 import com.loan.hero.customer.data.dto.request.SignUpRequest;
 import com.loan.hero.customer.data.dto.request.UpdateCustomerRequest;
-import com.loan.hero.customer.data.dto.response.AgreementDecision;
+import com.loan.hero.customer.data.models.enums.AgreementDecision;
 import com.loan.hero.customer.data.dto.response.InitResponse;
 import com.loan.hero.customer.data.models.Customer;
 import com.loan.hero.customer.data.repositories.CustomerRepository;
@@ -52,8 +52,8 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import static com.loan.hero.auth.user.data.models.Role.COSTUMER;
-import static com.loan.hero.customer.data.dto.response.AgreementDecision.ACCEPT;
-import static com.loan.hero.customer.data.dto.response.AgreementDecision.REJECT;
+import static com.loan.hero.customer.data.models.enums.AgreementDecision.ACCEPT;
+import static com.loan.hero.customer.data.models.enums.AgreementDecision.REJECT;
 import static com.loan.hero.loan.data.models.LoanStatus.ACTIVE;
 import static com.loan.hero.loan.data.models.LoanStatus.CLOSED;
 

@@ -1,5 +1,6 @@
 package com.loan.hero.auth.security.utility;
 
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -54,29 +55,29 @@ public class JwtService {
                 .compact();
     }
 
-//    public Boolean isValid(String token) {
-//        try {
-//            Claims claims = Jwts.parser()
-//                    .setSigningKey(key)
-//                    .parseClaimsJws(token)
-//                    .getBody();
-//            Date expiration = claims.getExpiration();
-//            return expiration != null &&
-//                    expiration.after(new Date());
-//        } catch (JwtException e) {
-//            return false;
-//        }
-//    }
-
-
     public Boolean isValid(String token) {
-       try {
-            Jwts.parser()
+        try {
+            Claims claims = Jwts.parser()
                     .setSigningKey(key)
-                    .parseClaimsJws(token);
-            return true;
+                    .parseClaimsJws(token)
+                    .getBody();
+            Date expiration = claims.getExpiration();
+            return expiration != null &&
+                    expiration.after(Date.from(Instant.now()));
         } catch (JwtException e) {
-           return false;
-       }
+            return false;
+        }
     }
+
+
+//    public Boolean isValid(String token) {
+//       try {
+//            Jwts.parser()
+//                    .setSigningKey(key)
+//                    .parseClaimsJws(token);
+//            return true;
+//        } catch (JwtException e) {
+//           return false;
+//       }
+//    }
 }

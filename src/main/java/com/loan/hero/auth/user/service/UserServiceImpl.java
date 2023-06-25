@@ -107,7 +107,7 @@ public class UserServiceImpl implements UserService {
                         getUserAuthority(user),
                         user.getEmail()
                 );
-                AuthenticationToken loginResponse =
+                AuthenticationToken newLoginTokens =
                         AuthenticationToken.builder()
                                 .accessToken(accessToken)
                                 .refreshToken(refreshToken)
@@ -121,7 +121,7 @@ public class UserServiceImpl implements UserService {
                 new ObjectMapper()
                         .writeValue(
                                 response.getOutputStream(),
-                                loginResponse
+                                newLoginTokens
                         );
             }
         }

@@ -30,11 +30,10 @@ import static org.springframework.http.MediaType.MULTIPART_FORM_DATA_VALUE;
 public class LoanOfficerController {
     private final LoanOfficerService loanOfficerService;
 
-
     @PostMapping("invite")
     @Operation(summary = "Invite Loan Officer")
     public ResponseEntity<String> inviteLoanOfficer(
-            @ParameterObject @Valid InviteRequest request
+            @RequestBody @Valid InviteRequest request
     ) {
         return ResponseEntity.ok(loanOfficerService.inviteAdmin(request));
     }
@@ -42,7 +41,7 @@ public class LoanOfficerController {
     @PostMapping(value = "update", consumes = MULTIPART_FORM_DATA_VALUE)
     @Operation(summary = "Update Loan Officer profile")
     public ResponseEntity<AuthenticationToken> updateLoanOfficer(
-            @ModelAttribute OfficerRequest request
+            @ModelAttribute @Valid OfficerRequest request
     ) {
         return ResponseEntity.ok(
                 loanOfficerService.completeOfficerProfile(request)
@@ -53,7 +52,7 @@ public class LoanOfficerController {
     @PreAuthorize("hasAuthority('LOAN_OFFICER')")
     @Operation(summary = "Update the status of a loan application")
     public ResponseEntity<LoanStatus> updateLoanStatus(
-            @ParameterObject @Valid UpdateLoanRequest request
+            @RequestBody @Valid UpdateLoanRequest request
     ) {
         return ResponseEntity.ok(
                 loanOfficerService.updateLoanStatus(request)
@@ -106,7 +105,7 @@ public class LoanOfficerController {
     @PreAuthorize("hasAuthority('LOAN_OFFICER')")
     @Operation(summary = "To generate a loan agreement")
     public ResponseEntity<LoanAgreement> generateAgreement(
-            @ParameterObject @Valid AgreementRequest request
+            @RequestBody @Valid AgreementRequest request
     ) {
         return ResponseEntity.ok(
                 loanOfficerService.generateAgreement(request)

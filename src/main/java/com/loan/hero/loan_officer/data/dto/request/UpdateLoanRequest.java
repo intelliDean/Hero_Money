@@ -16,10 +16,8 @@ import static com.loan.hero.hero_utility.HeroUtilities.NOT_NULL;
 public class UpdateLoanRequest {
 
     @NotNull(message = NOT_NULL)
-    @NotBlank(message = NOT_BLANK)
     private Long loanId;
 
     @NotNull(message = NOT_NULL)
-    @NotBlank(message = NOT_BLANK)
     private LoanStatus loanStatus;
 }

@@ -1,4 +1,4 @@
-package com.loan.hero.customer.data.models;
+package com.loan.hero.customer.data.models.enums;
 
 public enum MaritalStatus {
     SINGLE,

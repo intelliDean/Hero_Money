@@ -1,6 +1,9 @@
 package com.loan.hero.customer.data.models;
 
 import com.loan.hero.auth.user.data.models.User;
+import com.loan.hero.customer.data.models.enums.Gender;
+import com.loan.hero.customer.data.models.enums.JobStatus;
+import com.loan.hero.customer.data.models.enums.MaritalStatus;
 import jakarta.persistence.*;
 import lombok.*;
 

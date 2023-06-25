@@ -1,11 +1,9 @@
 package com.loan.hero.customer.data.dto.request;
 
-import com.loan.hero.customer.data.dto.response.AgreementDecision;
-import jakarta.validation.constraints.NotBlank;
+import com.loan.hero.customer.data.models.enums.AgreementDecision;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
-import static com.loan.hero.hero_utility.HeroUtilities.NOT_BLANK;
 import static com.loan.hero.hero_utility.HeroUtilities.NOT_NULL;
 
 @Setter
@@ -16,10 +14,8 @@ import static com.loan.hero.hero_utility.HeroUtilities.NOT_NULL;
 public class Decision {
 
     @NotNull(message = NOT_NULL)
-    @NotBlank(message = NOT_BLANK)
     private Long loanAgreementId;
 
     @NotNull(message = NOT_NULL)
-    @NotBlank(message = NOT_BLANK)
     private AgreementDecision agreementDecision;
 }

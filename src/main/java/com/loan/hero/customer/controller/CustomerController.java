@@ -6,7 +6,7 @@ import com.loan.hero.customer.data.dto.request.Decision;
 import com.loan.hero.customer.data.dto.request.InitRequest;
 import com.loan.hero.customer.data.dto.request.SignUpRequest;
 import com.loan.hero.customer.data.dto.request.UpdateCustomerRequest;
-import com.loan.hero.customer.data.dto.response.AgreementDecision;
+import com.loan.hero.customer.data.models.enums.AgreementDecision;
 import com.loan.hero.customer.data.dto.response.InitResponse;
 import com.loan.hero.customer.data.models.Customer;
 import com.loan.hero.customer.services.CustomerService;
@@ -48,7 +48,7 @@ public class CustomerController {
     @PostMapping("/register")
     @Operation(summary = "Register a new customer")
     public ResponseEntity<AuthenticationToken> register(
-            @ParameterObject @Valid SignUpRequest signUpRequest
+            @RequestBody @Valid SignUpRequest signUpRequest
     ) {
         return ResponseEntity.ok(
                 customerService.register(signUpRequest)
@@ -62,7 +62,7 @@ public class CustomerController {
     @PreAuthorize("hasAuthority('COSTUMER')")
     @Operation(summary = "Upload customer image")
     public ResponseEntity<String> uploadCustomerImage(
-            @RequestParam MultipartFile file
+            @ModelAttribute MultipartFile file
     ) {
         return ResponseEntity.ok(
                 customerService.uploadCustomerImage(file)
@@ -85,7 +85,7 @@ public class CustomerController {
     @PreAuthorize("hasAuthority('COSTUMER')")
     @Operation(summary = "Complete customer profile")
     public ResponseEntity<Customer> updateCustomerProfile(
-            @ModelAttribute UpdateCustomerRequest request
+            @ModelAttribute @Valid UpdateCustomerRequest request
     ) {
         return ResponseEntity.ok(
                 customerService.updateCustomerProfile(request)
@@ -106,11 +106,11 @@ public class CustomerController {
         );
     }
 
-    @GetMapping("status/{loanId}")
-    @PreAuthorize("hasAnyAuthority('LOAN_OFFICER, COSTUMER')")
+    @GetMapping("status")
+    @PreAuthorize("hasAnyAuthority('LOAN_OFFICER', 'COSTUMER')")
     @Operation(summary = "Get the status of a loan application")
     public ResponseEntity<LoanStatus> getLoanStatus(
-            @PathVariable Long loanId
+            @ParameterObject Long loanId
     ) {
         return ResponseEntity.ok(
                 customerService.viewLoanStatus(loanId)
@@ -125,11 +125,11 @@ public class CustomerController {
         );
     }
 
-    @GetMapping("agreement/{agreementId}")
+    @GetMapping("agreement")
     @Operation(summary = "To view agreement")
-    @PreAuthorize("hasAnyAuthority('LOAN_OFFICER, COSTUMER')")
+    @PreAuthorize("hasAnyAuthority('LOAN_OFFICER', 'COSTUMER')")
     public ResponseEntity<LoanAgreement> viewAgreement(
-            @PathVariable Long agreementId
+            @ParameterObject Long agreementId
     ) {
         return ResponseEntity.ok(
                 customerService.viewAgreement(agreementId)
@@ -140,7 +140,7 @@ public class CustomerController {
     @PreAuthorize("hasAuthority('COSTUMER')")
     @Operation(summary = "Accept or reject agreement")
     public ResponseEntity<AgreementDecision> agreementDecision(
-            @ParameterObject @Valid Decision decision
+            @RequestBody @Valid Decision decision
     ) {
         return ResponseEntity.ok(
                 customerService.agreementDecision(decision)

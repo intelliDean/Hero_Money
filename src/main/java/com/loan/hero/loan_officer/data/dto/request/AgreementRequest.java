@@ -17,10 +17,8 @@ import static com.loan.hero.hero_utility.HeroUtilities.NOT_NULL;
 public class AgreementRequest {
 
     @NotNull(message = NOT_NULL)
-    @NotBlank(message = NOT_BLANK)
     private Long loanId;
 
     @NotNull(message = NOT_NULL)
-    @NotBlank(message = NOT_BLANK)
     private BigDecimal interestRate;
 }
