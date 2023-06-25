@@ -15,25 +15,28 @@ import static com.loan.hero.hero_utility.HeroUtilities.NOT_NULL;
 @AllArgsConstructor
 public class SignUpRequest {
 
-
+    @NotNull(message = NOT_NULL)
+    @NotBlank(message = NOT_BLANK)
     private String token;
 
-
+    @NotNull(message = NOT_NULL)
+    @NotBlank(message = NOT_BLANK)
     private String firstName;
 
-
+    @NotNull(message = NOT_NULL)
+    @NotBlank(message = NOT_BLANK)
     private String lastName;
 
-    @NotNull(message = "Email cannot be null")
-    @NotBlank(message = "Email cannot be blank")
+    @NotNull(message = NOT_NULL)
+    @NotBlank(message = NOT_BLANK)
     private String email;
 
-    @NotNull(message = "Password cannot be null")
-    @NotBlank(message = "Password cannot be blank")
+    @NotNull(message = NOT_NULL)
+    @NotBlank(message = NOT_BLANK)
     @Size(max = 20, min = 8)
     private String password;
 
-    @NotNull(message = "Password cannot be null")
-    @NotBlank(message = "Password cannot be blank")
+    @NotNull(message = NOT_NULL)
+    @NotBlank(message = NOT_BLANK)
     private String dateOfBirth;
 }

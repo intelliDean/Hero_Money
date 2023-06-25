@@ -1,4 +1,4 @@
-package com.loan.hero.auth.user.data.dtos;
+package com.loan.hero.auth.user.data.dtos.request;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;

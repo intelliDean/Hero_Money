@@ -1,7 +1,6 @@
 package com.loan.hero.loan.data.dto.request;
 
 import com.loan.hero.loan.data.models.PaymentFrequency;
-import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
@@ -19,24 +18,22 @@ import static com.loan.hero.hero_utility.HeroUtilities.NOT_NULL;
 @AllArgsConstructor
 public class LoanRequest {
 
+    @NotNull(message = NOT_NULL)
+    @NotBlank(message = NOT_BLANK)
     private String loanPurpose;
 
-    @NotNull(message = NOT_NULL)
-    @NotBlank(message = NOT_BLANK)
+     @NotNull(message = NOT_NULL)
     private BigDecimal loanAMount;
 
-
-    private int repaymentTerm;
+    @NotNull(message = NOT_NULL)
+    private Integer repaymentTerm;
 
     @NotNull(message = NOT_NULL)
-    @NotBlank(message = NOT_BLANK)
     private PaymentFrequency paymentFrequency;
 
-    @NotNull(message = NOT_NULL)
-    @NotBlank(message = NOT_BLANK)
+    @NotNull
     private MultipartFile paySlip;
 
     @NotNull(message = NOT_NULL)
-    @NotBlank(message = NOT_BLANK)
     private MultipartFile accountStatement;
 }

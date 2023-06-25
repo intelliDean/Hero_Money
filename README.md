@@ -17,6 +17,9 @@ to review and approve/reject loan applications.
 * Loan Agreement Generation: For approved loan applications, loan officers can generate loan agreements for the
   borrowers to review and sign.
 
+### Endpoints
+To access the application: https://heromoney-app.up.railway.app/swagger-ui/index.html#/
+
 ### Installation
 * Clone the repository:
   git clone https://github.com/intelliDean/Hero_Money.git

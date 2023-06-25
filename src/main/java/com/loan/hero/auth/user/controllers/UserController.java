@@ -1,6 +1,6 @@
 package com.loan.hero.auth.user.controllers;
 
-import com.loan.hero.auth.user.data.dtos.LoginRequest;
+import com.loan.hero.auth.user.data.dtos.request.LoginRequest;
 import com.loan.hero.auth.user.data.dtos.UserDTO;
 import com.loan.hero.auth.user.service.UserService;
 import com.loan.hero.exceptions.HeroException;
