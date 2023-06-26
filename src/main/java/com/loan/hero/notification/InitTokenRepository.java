@@ -20,7 +20,7 @@ public interface InitTokenRepository extends JpaRepository<InitToken, Long> {
     List<InitToken> findAllRevokedTokens();
 
     @Query("""
-            select token from InitToken token
+              select token from InitToken token
             where token.revoked = false and token.expired = false
             """)
     List<InitToken> findAllValidTokens();

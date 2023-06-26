@@ -48,6 +48,7 @@ public class InitTokenServiceImpl implements InitTokenService {
                 token -> token.getExpireAt()
                         .isBefore(LocalDateTime.now())
         ).forEach(init -> init.setExpired(true));
+        initTokenRepository.saveAll(tokens);
     }
 }
 
