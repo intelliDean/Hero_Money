@@ -27,5 +27,6 @@ public class InitToken {
 
     private final LocalDateTime expireAt = generatedAt.plusHours(3);
 
-    private final boolean expired = expireAt.isBefore(LocalDateTime.now());
+    private boolean expired;
+            //= expireAt.isBefore(LocalDateTime.now());
 }
