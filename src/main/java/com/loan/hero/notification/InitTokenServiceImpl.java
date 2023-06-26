@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -39,4 +40,14 @@ public class InitTokenServiceImpl implements InitTokenService {
             initTokenRepository.deleteAll(allRevokedTokens);
         }
     }
+
+    @Scheduled(cron = "0 0 * * * ?", zone = "Africa/Lagos")
+    private void setExpiredToken() {
+        List<InitToken> tokens = initTokenRepository.findAllValidTokens();
+        tokens.stream().filter(
+                token -> token.getExpireAt()
+                        .isBefore(LocalDateTime.now())
+        ).forEach(init -> init.setExpired(true));
+    }
 }
+
