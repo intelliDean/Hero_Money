@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -44,9 +45,23 @@ public class HeroTokenServiceImpl implements HeroTokenService {
     @Scheduled(cron = "0 0 0 * * ?", zone = "Africa/Lagos")
     private void deleteAllRevokedTokens() {
         List<HeroToken> allRevokedTokens =
-                heroTokenRepository.findAllRevokedTokens();
+                heroTokenRepository.findAllInvalidTokens();
         if (!allRevokedTokens.isEmpty()) {
             heroTokenRepository.deleteAll(allRevokedTokens);
         }
+    }
+
+    @Scheduled(cron = "0 0 */6 * * *", zone = "Africa/Lagos")
+    private void setTokenExpiration() {
+        List<HeroToken> notExpiredTokens =
+                heroTokenRepository.findAllTokenNotExpired();
+        notExpiredTokens.stream()
+                .filter(
+                        token -> token.getCreatedAt()
+                                .plusDays(7)
+                                .isBefore(LocalDateTime.now())
+                        )
+                .forEach(token -> token.setExpired(true));
+            heroTokenRepository.saveAll(notExpiredTokens);
     }
 }
