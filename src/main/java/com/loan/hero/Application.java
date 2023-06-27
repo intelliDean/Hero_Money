@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import io.swagger.v3.oas.annotations.servers.Server;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.Banner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.scheduling.annotation.EnableScheduling;
@@ -50,8 +51,13 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 public class Application {
 
     public static void main(String[] args) {
-        SpringApplication.run(Application.class, args);
-         log.info("::: Hero Server Running :::");
+
+        SpringApplication application =
+                new SpringApplication(Application.class);
+
+        application.setBannerMode(Banner.Mode.LOG);
+        application.run(args);
+        log.info("::: Hero Server Running :::");
     }
 }
 
