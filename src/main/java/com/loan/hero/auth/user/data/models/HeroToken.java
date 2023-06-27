@@ -25,6 +25,8 @@ public class HeroToken {
 
     private boolean revoked;
 
+    private boolean expired;
+
     private final LocalDateTime createdAt = LocalDateTime.now();
 
     @ManyToOne

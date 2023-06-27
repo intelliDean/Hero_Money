@@ -16,7 +16,13 @@ public interface HeroTokenRepository extends JpaRepository<HeroToken, Long> {
 
     @Query("""
             select tokens from HeroToken tokens
-            where tokens.revoked = true
+            where tokens.revoked = true or tokens.expired = true
             """)
-    List<HeroToken> findAllRevokedTokens();
+    List<HeroToken> findAllInvalidTokens();
+
+    @Query("""
+            select token from HeroToken  token
+            where token.expired = false or token.revoked = false
+            """)
+    List<HeroToken> findAllTokenNotExpired();
 }
