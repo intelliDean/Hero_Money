@@ -18,7 +18,7 @@ to review and approve/reject loan applications.
   borrowers to review and sign.
 
 ### Endpoints
-To access the application: https://heromoney-app.up.railway.app/swagger-ui/index.html#/
+To access the application: https://heromoney-production.up.railway.app/swagger-ui/index.html#/
 
 ### Installation
 * Clone the repository:
