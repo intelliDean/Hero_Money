@@ -19,12 +19,12 @@ public class HeroAuthenticationProvider implements AuthenticationProvider {
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-        String requestEmail = authentication.getPrincipal().toString();
-        String requestPassword = authentication.getCredentials().toString();
+        final String requestEmail = authentication.getPrincipal().toString();
+        final String requestPassword = authentication.getCredentials().toString();
 
-        UserDetails userDetails = userDetailsService.loadUserByUsername(requestEmail);
-        String email = userDetails.getUsername();
-        String password = userDetails.getPassword();
+        final UserDetails userDetails = userDetailsService.loadUserByUsername(requestEmail);
+        final String email = userDetails.getUsername();
+        final String password = userDetails.getPassword();
         if (passwordEncoder.matches(requestPassword, password)) {
             return new UsernamePasswordAuthenticationToken(
                     email,

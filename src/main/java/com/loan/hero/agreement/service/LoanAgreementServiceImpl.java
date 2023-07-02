@@ -19,7 +19,7 @@ public class LoanAgreementServiceImpl implements LoanAgreementService {
 
     @Override
     public LoanAgreement saveAgreement(Loan loan, LoanOfficer loanOfficer) {
-        LoanAgreement loanAgreement = LoanAgreement.builder()
+        final LoanAgreement loanAgreement = LoanAgreement.builder()
                 .loan(loan)
                 .loanOfficer(loanOfficer)
                 .generatedAt(LocalDateTime.now())

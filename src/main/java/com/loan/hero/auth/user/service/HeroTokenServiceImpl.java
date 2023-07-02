@@ -27,7 +27,7 @@ public class HeroTokenServiceImpl implements HeroTokenService {
 
     @Override
     public void revokeToken(String accessToken) {
-        HeroToken classToken = getValidTokenByAnyToken(accessToken)
+        final HeroToken classToken = getValidTokenByAnyToken(accessToken)
                 .orElse(null);
         if (classToken != null) {
             classToken.setRevoked(true);
@@ -44,7 +44,7 @@ public class HeroTokenServiceImpl implements HeroTokenService {
 
     @Scheduled(cron = "0 0 0 * * ?", zone = "Africa/Lagos")
     private void deleteAllRevokedTokens() {
-        List<HeroToken> allRevokedTokens =
+        final List<HeroToken> allRevokedTokens =
                 heroTokenRepository.findAllInvalidTokens();
         if (!allRevokedTokens.isEmpty()) {
             heroTokenRepository.deleteAll(allRevokedTokens);
@@ -53,7 +53,7 @@ public class HeroTokenServiceImpl implements HeroTokenService {
 
     @Scheduled(cron = "0 0 */6 * * *", zone = "Africa/Lagos")
     private void setTokenExpiration() {
-        List<HeroToken> notExpiredTokens =
+       final List<HeroToken> notExpiredTokens =
                 heroTokenRepository.findAllTokenNotExpired();
         notExpiredTokens.stream()
                 .filter(

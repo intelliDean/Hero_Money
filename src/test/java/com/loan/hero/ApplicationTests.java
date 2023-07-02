@@ -18,10 +18,10 @@ class ApplicationTests {
 
     @Test
     void testDatabaseConnection() {
-        DriverManagerDataSource dataSource =
+        final DriverManagerDataSource dataSource =
                 new DriverManagerDataSource("jdbc:postgresql://localhost:5432/hero_man");
         try {
-            Connection connection = dataSource.getConnection("postgres", "password");
+            final Connection connection = dataSource.getConnection("postgres", "password");
             System.out.println(connection);
             assertThat(connection).isNotNull();
         } catch (SQLException e) {

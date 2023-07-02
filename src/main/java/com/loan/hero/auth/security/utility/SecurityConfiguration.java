@@ -82,7 +82,7 @@ public class SecurityConfiguration {
     }
 
     private UsernamePasswordAuthenticationFilter login() {
-        UsernamePasswordAuthenticationFilter authenticationFilter =
+        final UsernamePasswordAuthenticationFilter authenticationFilter =
                 new HeroAuthenticateFilter(
                         authenticationManager,
                         heroTokenService,
@@ -96,12 +96,12 @@ public class SecurityConfiguration {
 
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
-        CorsConfiguration configuration = new CorsConfiguration();
+        final CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOriginPatterns(Collections.singletonList("*"));
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "PATCH"));
         configuration.setAllowedHeaders(Collections.singletonList("*"));
         configuration.setAllowCredentials(true);
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;
     }

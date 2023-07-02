@@ -45,7 +45,7 @@ public class HeroAuthorizationFilter extends OncePerRequestFilter {
                 if (email != null) {
                     UserDetails userDetails =
                             userDetailsService.loadUserByUsername(email);
-                    UsernamePasswordAuthenticationToken authenticationToken =
+                    final UsernamePasswordAuthenticationToken authenticationToken =
                             new UsernamePasswordAuthenticationToken(
                                     userDetails,
                                     null,

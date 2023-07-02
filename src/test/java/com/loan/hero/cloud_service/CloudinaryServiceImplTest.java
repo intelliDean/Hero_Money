@@ -30,7 +30,7 @@ class CloudinaryServiceImplTest {
 
     @Test
     void uploadFileTest() {
-        String cloudinaryImageUrl = cloudService.uploadFile(file);
+        final String cloudinaryImageUrl = cloudService.uploadFile(file);
         assertThat(cloudinaryImageUrl).isNotNull();
     }
 }

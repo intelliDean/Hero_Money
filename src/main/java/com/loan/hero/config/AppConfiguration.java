@@ -52,7 +52,7 @@ public class AppConfiguration {
 
     @Bean
     public ModelMapper mapper() {
-        ModelMapper mapper = new ModelMapper();
+        final ModelMapper mapper = new ModelMapper();
         mapper.getConfiguration()
                 .setFieldMatchingEnabled(true)
                 .setFieldAccessLevel(PRIVATE)

@@ -34,7 +34,7 @@ public class InitTokenServiceImpl implements InitTokenService {
 
     @Scheduled(cron = "0 0 0 * * ?", zone = "Africa/Lagos")
     private void deleteAllRevokedTokens() {
-        List<InitToken> allRevokedTokens =
+        final List<InitToken> allRevokedTokens =
                 initTokenRepository.findAllRevokedTokens();
         if (!allRevokedTokens.isEmpty()) {
             initTokenRepository.deleteAll(allRevokedTokens);
@@ -43,7 +43,7 @@ public class InitTokenServiceImpl implements InitTokenService {
 
     @Scheduled(cron = "0 0 * * * ?", zone = "Africa/Lagos")
     private void setExpiredToken() {
-        List<InitToken> tokens = initTokenRepository.findAllValidTokens();
+        final List<InitToken> tokens = initTokenRepository.findAllValidTokens();
         tokens.stream().filter(
                 token -> token.getExpireAt()
                         .isBefore(LocalDateTime.now())

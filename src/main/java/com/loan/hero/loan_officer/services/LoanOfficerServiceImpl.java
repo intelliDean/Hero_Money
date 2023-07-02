@@ -70,15 +70,15 @@ public class LoanOfficerServiceImpl implements LoanOfficerService {
 
     @Override
     public String inviteAdmin(InviteRequest request) {
-        User user = User.builder()
+        final User user = User.builder()
                 .email(request.getEmail())
-                .firstName(request.getFirstName())
-                .lastName(request.getLastName())
+                .firstName(request.getFirstName().trim())
+                .lastName(request.getLastName().trim())
                 .build();
-        LoanOfficer loanOfficer = LoanOfficer.builder()
+        final LoanOfficer loanOfficer = LoanOfficer.builder()
                 .user(user)
                 .build();
-        LoanOfficer savedLoanOfficer = loanOfficeRepository.save(loanOfficer);
+        final LoanOfficer savedLoanOfficer = loanOfficeRepository.save(loanOfficer);
         savedLoanOfficer.setEmployeeId(employeeId(savedLoanOfficer));
         loanOfficeRepository.save(savedLoanOfficer);
 
@@ -94,16 +94,16 @@ public class LoanOfficerServiceImpl implements LoanOfficerService {
 
     @Override
     public AuthenticationToken completeOfficerProfile(OfficerRequest request) {
-        LoanOfficer loanOfficer = findByUserEmail(request.getEmail());
-        InitToken initToken = initTokenService.findByTokenAndEmail(
+        final LoanOfficer loanOfficer = findByUserEmail(request.getEmail());
+        final InitToken initToken = initTokenService.findByTokenAndEmail(
                 request.getToken(),
                 request.getEmail()
         ).orElseThrow(UserNotAuthorizedException::new);
 
         if (initTokenService.isValid(initToken)
                 && loanOfficer.getEmployeeId().equals(request.getEmployeeId())) {
-            User user = loanOfficer.getUser();
-            Address address = createAddress(request);
+            final User user = loanOfficer.getUser();
+            final Address address = createAddress(request);
 
             user.setPhoneNumber(request.getPhoneNumber());
             user.setAddress(address);
@@ -113,13 +113,13 @@ public class LoanOfficerServiceImpl implements LoanOfficerService {
             user.setUserImage(uploadImage(request.getUserImage()));
             loanOfficer.setUser(user);
 
-            String accessToken = jwtService.generateAccessToken(
+            final String accessToken = jwtService.generateAccessToken(
                     getUserAuthority(user),
                     user.getEmail()
             );
-            String refreshToken = jwtService.generateRefreshToken(user.getEmail());
+            final String refreshToken = jwtService.generateRefreshToken(user.getEmail());
 
-            HeroToken heroToken = HeroToken.builder()
+            final HeroToken heroToken = HeroToken.builder()
                     .accessToken(accessToken)
                     .refreshToken(refreshToken)
                     .user(user)
@@ -172,24 +172,24 @@ public class LoanOfficerServiceImpl implements LoanOfficerService {
     }
 
     private void sendLoanOfficerInvite(InviteRequest request, LoanOfficer savedLoanOfficer) {
-        String token = HeroUtilities.generateToken(10);
+        final String token = HeroUtilities.generateToken(10);
 
-        InitToken initToken = InitToken.builder()
+        final InitToken initToken = InitToken.builder()
                 .token(token)
                 .email(request.getEmail())
                 .revoked(false)
                 .build();
         initTokenService.saveToken(initToken);
 
-        String fullName = request.getFirstName() + " " + request.getLastName();
-        Context context = new Context();
+        final String fullName = request.getFirstName() + " " + request.getLastName();
+        final Context context = new Context();
         context.setVariable("fullName", fullName);
         context.setVariable("id", savedLoanOfficer.getEmployeeId());
         context.setVariable("token", token);
 
-        String content = templateEngine.process("admin_invite", context);
+        final String content = templateEngine.process("admin_invite", context);
 
-        EmailRequest emailRequest = EmailRequest.builder()
+        final EmailRequest emailRequest = EmailRequest.builder()
                 .to(Collections.singletonList(new MailInfo(fullName, request.getEmail())))
                 .subject("Welcome Aboard")
                 .htmlContent(content)
@@ -199,25 +199,25 @@ public class LoanOfficerServiceImpl implements LoanOfficerService {
     }
 
     private String employeeId(LoanOfficer loanOfficer) {
-        String firstLetters = String.format("%s%s",
+        final String firstLetters = String.format("%s%s",
                 loanOfficer.getUser().getFirstName().charAt(0),
                 loanOfficer.getUser().getLastName().charAt(0)
         );
-        String toUppercase = firstLetters.toUpperCase();
-        String loanOfficerId = String.valueOf(loanOfficer.getId());
-        String userId = String.valueOf(loanOfficer.getUser().getId());
+        final String toUppercase = firstLetters.toUpperCase();
+        final String loanOfficerId = String.valueOf(loanOfficer.getId());
+        final String userId = String.valueOf(loanOfficer.getUser().getId());
         return String.format("%s-0%s-0%s", toUppercase, userId, loanOfficerId);
     }
 
     @Override
     public LoanStatus updateLoanStatus(UpdateLoanRequest request) {
-        Loan loan = updateLoan(request);
+        final Loan loan = updateLoan(request);
         return loan.getLoanStatus();
     }
 
     @Override
     public LoanStatus approveLoanApplication(Long loanId) {
-        UpdateLoanRequest request = UpdateLoanRequest.builder()
+        final UpdateLoanRequest request = UpdateLoanRequest.builder()
                 .loanId(loanId)
                 .loanStatus(LoanStatus.APPROVED)
                 .build();
@@ -226,7 +226,7 @@ public class LoanOfficerServiceImpl implements LoanOfficerService {
 
     @Override
     public LoanStatus rejectLoanApplication(Long loanId) {
-        UpdateLoanRequest request = UpdateLoanRequest.builder()
+        final UpdateLoanRequest request = UpdateLoanRequest.builder()
                 .loanId(loanId)
                 .loanStatus(LoanStatus.REJECTED)
                 .build();
@@ -234,23 +234,23 @@ public class LoanOfficerServiceImpl implements LoanOfficerService {
     }
 
     private Loan updateLoan(UpdateLoanRequest request) {
-        Loan loan = loanService.findById(request.getLoanId());
+        final Loan loan = loanService.findById(request.getLoanId());
         loan.setLoanStatus(request.getLoanStatus());
         return loanService.saveLoan(loan);
     }
     @Override
     public Page<Loan> allFreshLoans(int pageNumber) {
         int page = pageNumber < 1 ? 0 : pageNumber - 1;
-        Pageable pageable = PageRequest.of(page, MAX_NUMBER_PER_PAGE);
-        List<Loan> freshLoans = loanService.allFreshApplication();
+        final Pageable pageable = PageRequest.of(page, MAX_NUMBER_PER_PAGE);
+        final List<Loan> freshLoans = loanService.allFreshApplication();
         return new PageImpl<>(freshLoans, pageable, freshLoans.size());
     }
 
     @Override
     public Page<LoanAgreement> allLoanAgreementByOfficerId(int pageNumber) {
         int page = pageNumber < 1 ? 0 : pageNumber - 1;
-        Pageable pageable = PageRequest.of(page, MAX_NUMBER_PER_PAGE);
-        List<LoanAgreement> allAgreements = loanAgreementService.allAgreementsByLoanOfficer(
+        final Pageable pageable = PageRequest.of(page, MAX_NUMBER_PER_PAGE);
+        final List<LoanAgreement> allAgreements = loanAgreementService.allAgreementsByLoanOfficer(
                 cuurentLoanOfficer().getId()
         );
         return new PageImpl<>(allAgreements, pageable, allAgreements.size());
@@ -258,13 +258,13 @@ public class LoanOfficerServiceImpl implements LoanOfficerService {
 
     @Override
     public LoanAgreement generateAgreement(AgreementRequest request) {
-        Loan loan = loanService.approvedApplication(request.getLoanId());
+        final Loan loan = loanService.approvedApplication(request.getLoanId());
         loan.setInterestRate(request.getInterestRate());
         loan.setStartDate(LocalDateTime.now());
         loan.setEndDate(loan.getStartDate().plusYears(loan.getRepaymentTerm()));
         loan.setDisbursementDate(LocalDateTime.now());
 
-        BigDecimal interestRate = loan.getInterestRate()
+       final BigDecimal interestRate = loan.getInterestRate()
                 .divide(BigDecimal.valueOf(100), RoundingMode.HALF_DOWN);
 
         switch (loan.getPaymentFrequency()) {
@@ -277,7 +277,7 @@ public class LoanOfficerServiceImpl implements LoanOfficerService {
 
     private void quarterlyPlan(Loan loan, BigDecimal interestRate) {
         int quarterPerYear = 4;
-        BigDecimal quarterlyInterestRate = interestRate
+        final BigDecimal quarterlyInterestRate = interestRate
                 .divide(BigDecimal.valueOf(quarterPerYear), RoundingMode.UP);
         int totalNumberOfQuarters = loan.getRepaymentTerm() * quarterPerYear;
         loan.setRepaymentAmount(
@@ -291,7 +291,7 @@ public class LoanOfficerServiceImpl implements LoanOfficerService {
 
     private void monthlyPlan(Loan loan, BigDecimal interestRate) {
         int monthsPerYear = 12;
-        BigDecimal monthlyInterestRate = interestRate
+        final BigDecimal monthlyInterestRate = interestRate
                 .divide(BigDecimal.valueOf(monthsPerYear), RoundingMode.UP);
         int totalNumberOfMonths = loan.getRepaymentTerm() * monthsPerYear;
         loan.setRepaymentAmount(
@@ -305,7 +305,7 @@ public class LoanOfficerServiceImpl implements LoanOfficerService {
 
     private void weeklyPlan(Loan loan, BigDecimal interestRate) {
         int weeksPerYear = 52;
-        BigDecimal weeklyInterestRate = interestRate
+        final BigDecimal weeklyInterestRate = interestRate
                 .divide(BigDecimal.valueOf(weeksPerYear), RoundingMode.UP);
         int totalNumberOfWeeks = loan.getRepaymentTerm() * weeksPerYear;
         loan.setRepaymentAmount(
@@ -322,13 +322,13 @@ public class LoanOfficerServiceImpl implements LoanOfficerService {
             BigDecimal interestRate,
             int numberOfPayments
     ) {
-        BigDecimal present = BigDecimal.valueOf(
+        final BigDecimal present = BigDecimal.valueOf(
                 Math.pow(
                         1 + interestRate.doubleValue(),
                         numberOfPayments
                 )
         );
-        BigDecimal presentValueFactor = (present.subtract(
+        final BigDecimal presentValueFactor = (present.subtract(
                 BigDecimal.valueOf(1))
         ).divide(interestRate.multiply(present), RoundingMode.HALF_DOWN);
         return loanAmount.divide(presentValueFactor, 2, RoundingMode.UP);

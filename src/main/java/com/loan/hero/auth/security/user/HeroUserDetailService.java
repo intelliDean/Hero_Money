@@ -16,7 +16,7 @@ public class HeroUserDetailService implements UserDetailsService {
     public UserDetails loadUserByUsername(
             String username
     ) throws UsernameNotFoundException {
-        User user = userService.findUserByEmail(username);
+        final User user = userService.findUserByEmail(username);
         return new AuthenticatedUser(user);
     }
 }

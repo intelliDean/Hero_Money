@@ -67,7 +67,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User getCurrentUser() {
         try {
-            AuthenticatedUser authenticatedUser =
+            final AuthenticatedUser authenticatedUser =
                     (AuthenticatedUser) SecurityContextHolder
                             .getContext()
                             .getAuthentication()
@@ -107,12 +107,12 @@ public class UserServiceImpl implements UserService {
                         getUserAuthority(user),
                         user.getEmail()
                 );
-                AuthenticationToken newLoginTokens =
+                final AuthenticationToken newLoginTokens =
                         AuthenticationToken.builder()
                                 .accessToken(accessToken)
                                 .refreshToken(refreshToken)
                                 .build();
-                HeroToken heroToken = heroTokenService.getValidTokenByAnyToken(refreshToken)
+                final HeroToken heroToken = heroTokenService.getValidTokenByAnyToken(refreshToken)
                         .orElseThrow(() -> new HeroException("Token could not be found"));
                 heroToken.setAccessToken(accessToken);
                 heroTokenService.saveToken(heroToken);

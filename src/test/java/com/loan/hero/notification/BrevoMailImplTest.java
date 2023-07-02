@@ -18,7 +18,7 @@ class BrevoMailImplTest {
 
     @Test
     void sendMail() {
-        EmailRequest emailRequest = EmailRequest.builder()
+        final EmailRequest emailRequest = EmailRequest.builder()
                 .subject("Welcome to Hero Money")
                 .to(List.of(new MailInfo(
                         "Dean",
@@ -26,7 +26,7 @@ class BrevoMailImplTest {
                 )))
                 .htmlContent("Message to send")
                 .build();
-        String mailResponse = mailService.sendMail(
+        final String mailResponse = mailService.sendMail(
                 emailRequest
         );
         assertThat(mailResponse).isNotNull();
