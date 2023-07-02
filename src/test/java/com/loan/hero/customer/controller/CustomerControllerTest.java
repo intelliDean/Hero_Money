@@ -26,10 +26,10 @@ class CustomerControllerTest {
 
     private final ObjectMapper objectMapper = new ObjectMapper();
     void initAccess() throws Exception {
-        InitRequest request = InitRequest.builder()
+        final InitRequest request = InitRequest.builder()
                 .email("6wif2nzxlj@klovenode.com")
                 .build();
-        String jsonRequest = objectMapper.writeValueAsString(request);
+        final String jsonRequest = objectMapper.writeValueAsString(request);
         mockMvc.perform(post("/api/v1/customer/init")
                     .content(jsonRequest)
                     .contentType(MediaType.APPLICATION_JSON))

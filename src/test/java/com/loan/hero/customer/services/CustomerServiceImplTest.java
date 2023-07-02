@@ -34,16 +34,16 @@ class CustomerServiceImplTest {
 
     @Test
     void initAccess() {
-        InitRequest initRequest = InitRequest.builder()
+        final InitRequest initRequest = InitRequest.builder()
                 .email("qem06gpzxa@klovenode.com")
                 .build();
-        InitResponse response = customerService.initAccess(initRequest);
+        final InitResponse response = customerService.initAccess(initRequest);
         assertThat(response).isNotNull().isEqualTo(InitResponse.SIGNUP);
     }
 
     @Test
     void register() {
-        SignUpRequest request = SignUpRequest.builder()
+        final SignUpRequest request = SignUpRequest.builder()
                 .token("GX7CkKmH6Q")
                 .firstName("Michael")
                 .lastName("Dean")
@@ -51,14 +51,14 @@ class CustomerServiceImplTest {
                 .password("Pass!234")
                 .dateOfBirth("12/09/1990")
                 .build();
-        AuthenticationToken token = customerService.register(request);
+        final AuthenticationToken token = customerService.register(request);
         assertThat(token)
                 .isNotNull()
                 .isInstanceOf(AuthenticationToken.class);
     }
     @Test
     void registerThrowsExceptionWhenAlreadyRegistered() {
-        SignUpRequest request = SignUpRequest.builder()
+       final SignUpRequest request = SignUpRequest.builder()
                 .token("GX7CkKmH6Q")
                 .firstName("Michael")
                 .lastName("Dean")
@@ -75,7 +75,7 @@ class CustomerServiceImplTest {
     }
     @Test
     void under18CannotRegister() {
-        SignUpRequest request = SignUpRequest.builder()
+        final SignUpRequest request = SignUpRequest.builder()
                 .token("8x4iV1hzWw")
                 .firstName("Michael")
                 .lastName("Dean")
@@ -92,7 +92,7 @@ class CustomerServiceImplTest {
     }
     @Test
     void invalidTokenThrowsException() {
-        SignUpRequest request = SignUpRequest.builder()
+        final SignUpRequest request = SignUpRequest.builder()
                 .token("GX7CkKmH6Q")
                 .firstName("Michael")
                 .lastName("Dean")
@@ -115,12 +115,12 @@ class CustomerServiceImplTest {
 
     @Test
     void uploadCustomerImage() throws IOException {
-        MockMultipartFile file =
+        final MockMultipartFile file =
                 new MockMultipartFile(
                         "myself",
                         new FileInputStream("C:\\Users\\Dean\\hero\\src\\main\\resources\\p1wbidsbjpnwgtcdtla8.jpg")
                 );
-       String response = customerService.uploadCustomerImage(file);
+       final String response = customerService.uploadCustomerImage(file);
        assertThat(response).isNotNull()
                .isInstanceOf(String.class)
                .isEqualTo("Image uploaded successfully");

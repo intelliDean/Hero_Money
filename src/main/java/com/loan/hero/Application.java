@@ -51,8 +51,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 public class Application {
 
     public static void main(String[] args) {
-
-        SpringApplication application =
+        final SpringApplication application =
                 new SpringApplication(Application.class);
 
         application.setBannerMode(Banner.Mode.LOG);

@@ -83,7 +83,7 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     private String sendSignUpMail(String email) {
-        String token = HeroUtilities.generateToken(7);
+        final String token = HeroUtilities.generateToken(7);
         initTokenService.saveToken(
                 InitToken.builder()
                         .token(token)
@@ -92,17 +92,17 @@ public class CustomerServiceImpl implements CustomerService {
         );
 
         int atIndex = email.indexOf("@");
-        String username = email.substring(0, atIndex);
+        final String username = email.substring(0, atIndex);
 
-        Context context = new Context();
+        final Context context = new Context();
         context.setVariables(
                 Map.of(
                         "username", username,
                         "token", token
                 )
         );
-        String content = templateEngine.process("customer_mail", context);
-        EmailRequest emailRequest = EmailRequest.builder()
+        final String content = templateEngine.process("customer_mail", context);
+        final EmailRequest emailRequest = EmailRequest.builder()
                 .to(Collections.singletonList(new MailInfo(username, email)))
                 .subject("Welcome to Hero Money")
                 .htmlContent(content)
@@ -112,7 +112,7 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public AuthenticationToken register(SignUpRequest signUpRequest) {
-        InitToken initToken = initTokenService.findByTokenAndEmail(
+        final InitToken initToken = initTokenService.findByTokenAndEmail(
                 signUpRequest.getToken(),
                 signUpRequest.getEmail()
         ).orElseThrow(HeroException::new);
@@ -121,16 +121,16 @@ public class CustomerServiceImpl implements CustomerService {
             throw new HeroException("Invalid credentials");
         }
 
-        User user = User.builder()
-                .firstName(signUpRequest.getFirstName())
-                .lastName(signUpRequest.getLastName())
-                .email(signUpRequest.getEmail())
-                .password(passwordEncoder.encode(signUpRequest.getPassword()))
+        final User user = User.builder()
+                .firstName(signUpRequest.getFirstName().trim())
+                .lastName(signUpRequest.getLastName().trim())
+                .email(signUpRequest.getEmail().trim())
+                .password(passwordEncoder.encode(signUpRequest.getPassword().trim()))
                 .enabled(true)
                 .roles(Set.of(COSTUMER))
                 .build();
 
-        Customer customer = Customer.builder()
+        final Customer customer = Customer.builder()
                 .user(user)
                 .age(age)
                 .complete(false)
@@ -144,12 +144,12 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     private int getAge(String dateOfBirth) {
-        LocalDate birthDate = LocalDate.parse(
-                dateOfBirth,
+        final LocalDate birthDate = LocalDate.parse(
+                dateOfBirth.trim(),
                 DateTimeFormatter.ofPattern("dd/MM/yyyy")
         );
 
-        Period period = Period.between(
+        final Period period = Period.between(
                 birthDate,
                 LocalDate.now()
         );
@@ -168,9 +168,9 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public String uploadCustomerImage(MultipartFile image) {
-        Customer customer = getCurrentCustomer();
+        final Customer customer = getCurrentCustomer();
         try {
-            String imageUrl = cloudService.uploadFile(image);
+            final String imageUrl = cloudService.uploadFile(image);
             customer.getUser().setUserImage(imageUrl);
             customerRepository.save(customer);
             return "Image uploaded successfully";
@@ -181,16 +181,16 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public LoanDTO apply(LoanRequest request) {
-        Customer customer = getCurrentCustomer();
+        final Customer customer = getCurrentCustomer();
         if (!customer.isComplete()) {
             throw new HeroException("Complete profile update");
         }
-        LoanDocuments loanDocuments = LoanDocuments.builder()
+        final LoanDocuments loanDocuments = LoanDocuments.builder()
                 .paySlip(uploadImage(request.getPaySlip()))
                 .bankStatement(uploadImage(request.getAccountStatement()))
                 .build();
 
-        Loan loan = Loan.builder()
+        final Loan loan = Loan.builder()
                 .customer(customer)
                 .loanAmount(request.getLoanAMount())
                 .loanPurpose(request.getLoanPurpose())
@@ -200,7 +200,7 @@ public class CustomerServiceImpl implements CustomerService {
                 .applicationDate(LocalDateTime.now())
                 .loanStatus(LoanStatus.PENDING)
                 .build();
-        Loan savedLoan = loanService.saveLoan(loan);
+        final Loan savedLoan = loanService.saveLoan(loan);
 
         sendMail(customer, savedLoan);
 
@@ -213,17 +213,17 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public LoanStatus viewLoanStatus(Long loanId) {
-        Loan loan = loanService.findById(loanId);
+        final Loan loan = loanService.findById(loanId);
         return loan.getLoanStatus();
     }
 
     @Override
     public Map<String, String> allLoansStatus() {
-        List<Loan> allLoansByCustomer = loanService.allLoansByCustomerId(
+        final List<Loan> allLoansByCustomer = loanService.allLoansByCustomerId(
                 getCurrentCustomer().getId()
         );
 
-        Map<String, String> allLoansStatus = new HashMap<>();
+        final Map<String, String> allLoansStatus = new HashMap<>();
         allLoansByCustomer.forEach(
                 loan -> allLoansStatus.put(
                         loan.getId().toString(),
@@ -239,8 +239,8 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     private void sendMail(Customer customer, Loan savedLoan) {
-        String name = customer.getUser().getFirstName();
-        Context context = new Context();
+        final String name = customer.getUser().getFirstName();
+        final Context context = new Context();
         context.setVariables(
                 Map.of(
                         "name", name,
@@ -248,8 +248,8 @@ public class CustomerServiceImpl implements CustomerService {
                         "status", savedLoan.getLoanStatus().name()
                 )
         );
-        String content = templateEngine.process("loan_application_mail", context);
-        EmailRequest emailRequest = EmailRequest.builder()
+        final String content = templateEngine.process("loan_application_mail", context);
+        final EmailRequest emailRequest = EmailRequest.builder()
                 .to(List.of(new MailInfo(name, customer.getUser().getEmail())))
                 .subject("Application Update")
                 .htmlContent(content)
@@ -268,8 +268,8 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public Customer updateCustomerProfile(UpdateCustomerRequest request) {
-        Customer customer = getCurrentCustomer();
-        User user = updateUser(request, customer);
+        final Customer customer = getCurrentCustomer();
+        final User user = updateUser(request, customer);
 
         customer.setUser(user);
         customer.setGender(request.getGender());
@@ -285,7 +285,7 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public AgreementDecision agreementDecision(Decision decision) {
-        LoanAgreement loanAgreement = loanAgreementService.findById(decision.getLoanAgreementId());
+        final LoanAgreement loanAgreement = loanAgreementService.findById(decision.getLoanAgreementId());
         switch (decision.getAgreementDecision()) {
             case ACCEPT -> {
                 loanAgreement.setAgreed(true);
@@ -304,7 +304,7 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     private User updateUser(UpdateCustomerRequest request, Customer customer) {
-        User user = customer.getUser();
+       final User user = customer.getUser();
         user.setUserImage(uploadImage(request.getUserImage()));
         user.setPhoneNumber(request.getPhoneNumber());
         user.setAddress(
@@ -321,14 +321,14 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     private AuthenticationToken getAuthenticationToken(User user) {
-        String email = user.getEmail();
-        String accessToken = jwtService.generateAccessToken(
+        final String email = user.getEmail();
+        final String accessToken = jwtService.generateAccessToken(
                 getUserAuthority(user),
                 email
         );
-        String refreshToken = jwtService.generateRefreshToken(email);
+        final String refreshToken = jwtService.generateRefreshToken(email);
 
-        HeroToken heroToken = HeroToken.builder()
+        final HeroToken heroToken = HeroToken.builder()
                 .accessToken(accessToken)
                 .refreshToken(refreshToken)
                 .user(user)

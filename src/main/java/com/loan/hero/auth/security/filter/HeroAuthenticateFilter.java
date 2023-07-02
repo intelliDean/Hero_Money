@@ -40,14 +40,14 @@ public class HeroAuthenticateFilter extends UsernamePasswordAuthenticationFilter
             HttpServletRequest request,
             HttpServletResponse response) throws AuthenticationException {
         try {
-            User user = objectMapper.readValue(request.getInputStream(), User.class);
+            final User user = objectMapper.readValue(request.getInputStream(), User.class);
 
-            Authentication authentication =
+            final Authentication authentication =
                     new UsernamePasswordAuthenticationToken(
                             user.getEmail(),
                             user.getPassword()
                     );
-            Authentication authenticationResult =
+            final Authentication authenticationResult =
                     authenticationManager.authenticate(authentication);
             if (authenticationResult != null) {
                 SecurityContextHolder.getContext().setAuthentication(authenticationResult);
@@ -66,19 +66,19 @@ public class HeroAuthenticateFilter extends UsernamePasswordAuthenticationFilter
             FilterChain chain,
             Authentication authResult) throws IOException {
 
-        Map<String, Object> claims = new HashMap<>();
+        final Map<String, Object> claims = new HashMap<>();
         authResult.getAuthorities().forEach(
                 role -> claims.put("claim", role)
         );
-        String email = authResult.getPrincipal().toString();
+        final String email = authResult.getPrincipal().toString();
 
-        String accessToken = jwtService.generateAccessToken(claims, email);
-        String refreshToken = jwtService.generateRefreshToken(email);
+        final String accessToken = jwtService.generateAccessToken(claims, email);
+        final String refreshToken = jwtService.generateRefreshToken(email);
 
-        AuthenticatedUser authenticatedUser =
+       final AuthenticatedUser authenticatedUser =
                 (AuthenticatedUser) userDetailsService.loadUserByUsername(email);
 
-        HeroToken heroToken = HeroToken.builder()
+        final HeroToken heroToken = HeroToken.builder()
                 .user(authenticatedUser.getUser())
                 .refreshToken(refreshToken)
                 .accessToken(accessToken)
@@ -86,7 +86,7 @@ public class HeroAuthenticateFilter extends UsernamePasswordAuthenticationFilter
                 .build();
         heroTokenService.saveToken(heroToken);
 
-        AuthenticationToken authenticationToken =
+        final AuthenticationToken authenticationToken =
                 AuthenticationToken.builder()
                         .accessToken(accessToken)
                         .refreshToken(refreshToken)

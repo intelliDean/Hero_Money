@@ -19,7 +19,7 @@ public class CloudinaryServiceImpl implements CloudService {
     @Override
     public String uploadFile(MultipartFile file) {
         try {
-            Map<?, ?> response = cloudinary.uploader()
+            final Map<?, ?> response = cloudinary.uploader()
                     .upload(
                             file.getBytes(),
                             ObjectUtils.emptyMap()

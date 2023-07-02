@@ -44,7 +44,7 @@ public class JwtService {
     }
 
     private String generateToken(Map<String, Object> claims, String email, Long expiration) {
-        Date expiredAt = Date.from(Instant.now().plusSeconds(expiration));
+        final Date expiredAt = Date.from(Instant.now().plusSeconds(expiration));
         return Jwts.builder()
                 .setIssuer("Hero")
                 .setIssuedAt(Date.from(Instant.now()))
@@ -57,11 +57,11 @@ public class JwtService {
 
     public Boolean isValid(String token) {
         try {
-            Claims claims = Jwts.parser()
+           final Claims claims = Jwts.parser()
                     .setSigningKey(key)
                     .parseClaimsJws(token)
                     .getBody();
-            Date expiration = claims.getExpiration();
+           final Date expiration = claims.getExpiration();
             return expiration != null &&
                     expiration.after(Date.from(Instant.now()));
         } catch (JwtException e) {
