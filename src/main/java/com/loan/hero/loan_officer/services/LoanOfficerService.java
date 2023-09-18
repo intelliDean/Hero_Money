@@ -13,7 +13,6 @@ import org.springframework.data.domain.Page;
 
 public interface LoanOfficerService {
 
-    String inviteAdmin (InviteRequest request);
     LoanOfficer cuurentLoanOfficer ();
     AuthenticationToken completeOfficerProfile (OfficerRequest officerRequest);
     LoanOfficer findByUserEmail(String email);

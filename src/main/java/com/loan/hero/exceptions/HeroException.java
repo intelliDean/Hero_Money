@@ -16,7 +16,7 @@ public class HeroException extends RuntimeException{
         this(message, HttpStatus.BAD_REQUEST);
     }
 
-    public HeroException(String message, HttpStatus status) {
+      public HeroException(String message, HttpStatus status) {
         super(message);
         this.status = status;
     }

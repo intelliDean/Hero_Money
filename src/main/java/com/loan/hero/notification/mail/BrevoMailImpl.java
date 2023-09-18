@@ -1,8 +1,7 @@
-package com.loan.hero.notification;
+package com.loan.hero.notification.mail;
 
-import com.loan.hero.notification.dto.EmailRequest;
-import com.loan.hero.notification.dto.MailInfo;
-import com.loan.hero.notification.interfaces.MailService;
+import com.loan.hero.notification.mail.dto.EmailRequest;
+import com.loan.hero.notification.mail.dto.MailInfo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;

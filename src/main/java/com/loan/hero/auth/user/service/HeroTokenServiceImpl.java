@@ -42,7 +42,7 @@ public class HeroTokenServiceImpl implements HeroTokenService {
                 .orElse(false);
     }
 
-    @Scheduled(cron = "0 0 0 * * ?", zone = "Africa/Lagos")
+    @Scheduled(cron = "0 0 0 * * ?", zone = "Africa/Lagos") //schedule to run every midnight
     private void deleteAllRevokedTokens() {
         final List<HeroToken> allRevokedTokens =
                 heroTokenRepository.findAllInvalidTokens();
@@ -51,7 +51,7 @@ public class HeroTokenServiceImpl implements HeroTokenService {
         }
     }
 
-    @Scheduled(cron = "0 0 */6 * * *", zone = "Africa/Lagos")
+    @Scheduled(cron = "0 0 */6 * * *", zone = "Africa/Lagos")   //scheduled to run every 6 hours daily
     private void setTokenExpiration() {
        final List<HeroToken> notExpiredTokens =
                 heroTokenRepository.findAllTokenNotExpired();

@@ -1,4 +1,4 @@
-package com.loan.hero.notification.dto;
+package com.loan.hero.notification.mail.dto;
 
 import lombok.*;
 

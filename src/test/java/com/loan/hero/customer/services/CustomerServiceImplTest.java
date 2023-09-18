@@ -6,7 +6,6 @@ import com.loan.hero.customer.data.dto.request.SignUpRequest;
 import com.loan.hero.customer.data.dto.response.InitResponse;
 import com.loan.hero.exceptions.HeroException;
 import lombok.extern.slf4j.Slf4j;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,19 +26,73 @@ class CustomerServiceImplTest {
 
     @Autowired
     private CustomerService customerService;
+//    private final CustomerRepository customerRepository = mock(CustomerRepository.class);
+//    private final LoanAgreementService loanAgreementService = mock(LoanAgreementService.class);
+//    private final HeroTokenService heroTokenService = mock(HeroTokenService.class);
+//    private final InitTokenService initTokenService = mock(InitTokenService.class);
+//    private final PasswordEncoder passwordEncoder = mock(PasswordEncoder.class);
+//    private final TemplateEngine templateEngine = mock(TemplateEngine.class);
+//    private final CloudService cloudService = mock(CloudService.class);
+//    private final LoanService loanService = mock(LoanService.class);
+//    private final UserService userService = mock(UserService.class);
+//    private final MailService mailService = mock(MailService.class);
+//    private final JwtService jwtService = mock(JwtService.class);
+//    private CustomerService customerService;
 
-    @BeforeEach
-    void setUp() {
-    }
+
+//    @BeforeEach
+//    void setUp() {
+//        customerService = new CustomerServiceImpl(
+//                loanAgreementService, customerRepository, heroTokenService, initTokenService,
+//                passwordEncoder, templateEngine, cloudService, loanService, userService,
+//                mailService, jwtService
+//        );
+//    }
 
     @Test
-    void initAccess() {
-        final InitRequest initRequest = InitRequest.builder()
-                .email("qem06gpzxa@klovenode.com")
-                .build();
+    void ifEmailExistInDBReturnLogin() {
+        String email = "qem06gpzxa@klovenode.com";
+
+        final InitRequest initRequest = InitRequest.builder().email(email).build();
+       // when(customerRepository.existsByUserEmail(email)).thenReturn(true);
         final InitResponse response = customerService.initAccess(initRequest);
+
         assertThat(response).isNotNull().isEqualTo(InitResponse.SIGNUP);
     }
+//    @Test
+//    void ifEmailNotExistInDBReturnSignUp() {
+//        String email = "qem06gpzxa@klovenode.com";
+//        EmailRequest emailRequest = mock(EmailRequest.class);
+//        final String username = "dean";
+//        final String token = "dean123";
+//        final Context context = new Context();
+//        context.setVariables(
+//                Map.of(
+//                        "username", username,
+//                        "token", token
+//                )
+//        );
+//
+//
+//
+//        final InitRequest initRequest = InitRequest.builder().email(email).build();
+//        when(customerRepository.existsByUserEmail(email)).thenReturn(false);
+//        //when(templateEngine.process("customer_mail", context)).thenReturn("");
+//        when(mailService.sendMail(emailRequest)).thenReturn("");
+//
+//        final InitResponse response = customerService.initAccess(initRequest);
+//
+//        assertThat(response).isNotNull().isEqualTo(InitResponse.SIGNUP);
+//    }
+//    @Test
+//    void initAccess() {
+//        InitRequest request = Mockito.mock(InitRequest.class);
+//        final InitRequest initRequest = InitRequest.builder()
+//                .email("qem06gpzxa@klovenode.com")
+//                .build();
+//        final InitResponse response = customerService.initAccess(initRequest);
+//        assertThat(response).isNotNull().isEqualTo(InitResponse.SIGNUP);
+//    }
 
     @Test
     void register() {

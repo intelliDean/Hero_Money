@@ -39,8 +39,7 @@ public class HeroAuthorizationFilter extends OncePerRequestFilter {
         if (StringUtils.hasText(authHeader) &&
                 StringUtils.startsWithIgnoreCase(authHeader, BEARER)) {
             final String accessToken = authHeader.substring(BEARER.length());
-            if (jwtService.isValid(accessToken) &&
-                    heroTokenService.isTokenValid(accessToken)) {
+            if (jwtService.isValid(accessToken) && heroTokenService.isTokenValid(accessToken)) {
                 final String email = jwtService.extractUsernameFromToken(accessToken);
                 if (email != null) {
                     UserDetails userDetails =

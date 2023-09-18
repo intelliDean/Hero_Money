@@ -1,4 +1,4 @@
-package com.loan.hero.notification;
+package com.loan.hero.init_token;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

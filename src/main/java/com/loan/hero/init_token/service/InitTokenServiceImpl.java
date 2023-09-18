@@ -1,6 +1,7 @@
-package com.loan.hero.notification;
+package com.loan.hero.init_token.service;
 
-import com.loan.hero.notification.interfaces.InitTokenService;
+import com.loan.hero.init_token.InitToken;
+import com.loan.hero.init_token.InitTokenRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -8,7 +9,6 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -32,8 +32,8 @@ public class InitTokenServiceImpl implements InitTokenService {
         return initTokenRepository.findValidByTokenAndEmail(token, email);
     }
 
-    @Scheduled(cron = "0 0 0 * * ?", zone = "Africa/Lagos")
-    private void deleteAllRevokedTokens() {
+    @Scheduled(cron = "0 0 0 * * ?", zone = "Africa/Lagos") //scheduled to run every midnight
+    public void deleteAllRevokedTokens() {
         final List<InitToken> allRevokedTokens =
                 initTokenRepository.findAllRevokedTokens();
         if (!allRevokedTokens.isEmpty()) {
@@ -42,7 +42,7 @@ public class InitTokenServiceImpl implements InitTokenService {
     }
 
     @Scheduled(cron = "0 0 * * * ?", zone = "Africa/Lagos")
-    private void setExpiredToken() {
+    public void setExpiredToken() {
         final List<InitToken> tokens = initTokenRepository.findAllValidTokens();
         tokens.stream().filter(
                 token -> token.getExpireAt()

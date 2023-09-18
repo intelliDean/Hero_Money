@@ -1,8 +1,8 @@
 package com.loan.hero.notification;
 
-import com.loan.hero.notification.dto.EmailRequest;
-import com.loan.hero.notification.dto.MailInfo;
-import com.loan.hero.notification.interfaces.MailService;
+import com.loan.hero.notification.mail.dto.EmailRequest;
+import com.loan.hero.notification.mail.dto.MailInfo;
+import com.loan.hero.notification.mail.MailService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

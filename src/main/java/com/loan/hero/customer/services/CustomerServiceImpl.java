@@ -27,13 +27,12 @@ import com.loan.hero.loan.data.models.Loan;
 import com.loan.hero.loan.data.models.LoanDocuments;
 import com.loan.hero.loan.data.models.LoanStatus;
 import com.loan.hero.loan.service.LoanService;
-import com.loan.hero.notification.InitToken;
-import com.loan.hero.notification.dto.EmailRequest;
-import com.loan.hero.notification.dto.MailInfo;
-import com.loan.hero.notification.interfaces.InitTokenService;
-import com.loan.hero.notification.interfaces.MailService;
+import com.loan.hero.init_token.InitToken;
+import com.loan.hero.notification.mail.dto.EmailRequest;
+import com.loan.hero.notification.mail.dto.MailInfo;
+import com.loan.hero.init_token.service.InitTokenService;
+import com.loan.hero.notification.mail.MailService;
 import lombok.AllArgsConstructor;
-import org.hibernate.mapping.Collection;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -82,7 +81,7 @@ public class CustomerServiceImpl implements CustomerService {
         throw new HeroException("Registration failed");
     }
 
-    private String sendSignUpMail(String email) {
+    private String sendSignUpMail(String email)  {
         final String token = HeroUtilities.generateToken(7);
         initTokenService.saveToken(
                 InitToken.builder()
@@ -139,6 +138,7 @@ public class CustomerServiceImpl implements CustomerService {
 
         initToken.setRevoked(true);
         initTokenService.saveToken(initToken);
+
 
         return getAuthenticationToken(user);
     }

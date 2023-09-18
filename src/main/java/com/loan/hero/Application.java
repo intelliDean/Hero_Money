@@ -60,3 +60,5 @@ public class Application {
     }
 }
 
+// Implement @PostConstruct and @PreDestroy methods for the super admin
+//super admin sends the invites for the loan officers

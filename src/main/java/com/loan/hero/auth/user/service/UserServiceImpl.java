@@ -89,9 +89,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void refreshToken(
             HttpServletRequest request,
-            HttpServletResponse response
-    ) throws IOException {
-
+            HttpServletResponse response) throws IOException {
         final String authHeader = request.getHeader(AUTHORIZATION);
         if (!StringUtils.hasText(authHeader) ||
                 !StringUtils.startsWithIgnoreCase(authHeader, BEARER)) return;
@@ -126,6 +124,7 @@ public class UserServiceImpl implements UserService {
             }
         }
     }
+
     private static Map<String, Object> getUserAuthority(User savedUser) {
         return savedUser.getRoles().stream()
                 .map(role -> new SimpleGrantedAuthority(role.name()))

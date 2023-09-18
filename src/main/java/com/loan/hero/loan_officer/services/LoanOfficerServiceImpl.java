@@ -13,21 +13,17 @@ import com.loan.hero.cloud_service.CloudService;
 import com.loan.hero.exceptions.HeroException;
 import com.loan.hero.exceptions.UserNotAuthorizedException;
 import com.loan.hero.exceptions.UserNotFoundException;
-import com.loan.hero.hero_utility.HeroUtilities;
 import com.loan.hero.loan.data.models.Loan;
 import com.loan.hero.loan.data.models.LoanStatus;
 import com.loan.hero.loan.service.LoanService;
 import com.loan.hero.loan_officer.data.dto.request.AgreementRequest;
-import com.loan.hero.loan_officer.data.dto.request.InviteRequest;
 import com.loan.hero.loan_officer.data.dto.request.OfficerRequest;
 import com.loan.hero.loan_officer.data.dto.request.UpdateLoanRequest;
 import com.loan.hero.loan_officer.data.models.LoanOfficer;
-import com.loan.hero.loan_officer.data.repositories.LoanOfficeRepository;
-import com.loan.hero.notification.InitToken;
-import com.loan.hero.notification.dto.EmailRequest;
-import com.loan.hero.notification.dto.MailInfo;
-import com.loan.hero.notification.interfaces.InitTokenService;
-import com.loan.hero.notification.interfaces.MailService;
+import com.loan.hero.loan_officer.data.repositories.LoanOfficerRepository;
+import com.loan.hero.init_token.InitToken;
+import com.loan.hero.init_token.service.InitTokenService;
+import com.loan.hero.notification.mail.MailService;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -38,7 +34,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.thymeleaf.TemplateEngine;
-import org.thymeleaf.context.Context;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -55,7 +50,7 @@ import static com.loan.hero.hero_utility.HeroUtilities.MAX_NUMBER_PER_PAGE;
 @Service
 @AllArgsConstructor
 public class LoanOfficerServiceImpl implements LoanOfficerService {
-    private final LoanOfficeRepository loanOfficeRepository;
+    private final LoanOfficerRepository loanOfficerRepository;
     private final LoanAgreementService loanAgreementService;
     private final InitTokenService initTokenService;
     private final HeroTokenService heroTokenService;
@@ -67,28 +62,9 @@ public class LoanOfficerServiceImpl implements LoanOfficerService {
     private final UserService userService;
     private final JwtService jwtService;
 
-
-    @Override
-    public String inviteAdmin(InviteRequest request) {
-        final User user = User.builder()
-                .email(request.getEmail())
-                .firstName(request.getFirstName().trim())
-                .lastName(request.getLastName().trim())
-                .build();
-        final LoanOfficer loanOfficer = LoanOfficer.builder()
-                .user(user)
-                .build();
-        final LoanOfficer savedLoanOfficer = loanOfficeRepository.save(loanOfficer);
-        savedLoanOfficer.setEmployeeId(employeeId(savedLoanOfficer));
-        loanOfficeRepository.save(savedLoanOfficer);
-
-        sendLoanOfficerInvite(request, savedLoanOfficer);
-        return "Loan officer invite sent successfully";
-    }
-
     @Override
     public LoanOfficer cuurentLoanOfficer() {
-        return loanOfficeRepository.findByUser(userService.getCurrentUser())
+        return loanOfficerRepository.findByUser(userService.getCurrentUser())
                 .orElseThrow(UserNotFoundException::new);
     }
 
@@ -167,46 +143,8 @@ public class LoanOfficerServiceImpl implements LoanOfficerService {
 
     @Override
     public LoanOfficer findByUserEmail(String email) {
-        return loanOfficeRepository.findByUserEmail(email)
+        return loanOfficerRepository.findByUserEmail(email)
                 .orElseThrow(UserNotFoundException::new);
-    }
-
-    private void sendLoanOfficerInvite(InviteRequest request, LoanOfficer savedLoanOfficer) {
-        final String token = HeroUtilities.generateToken(10);
-
-        final InitToken initToken = InitToken.builder()
-                .token(token)
-                .email(request.getEmail())
-                .revoked(false)
-                .build();
-        initTokenService.saveToken(initToken);
-
-        final String fullName = request.getFirstName() + " " + request.getLastName();
-        final Context context = new Context();
-        context.setVariable("fullName", fullName);
-        context.setVariable("id", savedLoanOfficer.getEmployeeId());
-        context.setVariable("token", token);
-
-        final String content = templateEngine.process("admin_invite", context);
-
-        final EmailRequest emailRequest = EmailRequest.builder()
-                .to(Collections.singletonList(new MailInfo(fullName, request.getEmail())))
-                .subject("Welcome Aboard")
-                .htmlContent(content)
-                .build();
-
-        mailService.sendMail(emailRequest);
-    }
-
-    private String employeeId(LoanOfficer loanOfficer) {
-        final String firstLetters = String.format("%s%s",
-                loanOfficer.getUser().getFirstName().charAt(0),
-                loanOfficer.getUser().getLastName().charAt(0)
-        );
-        final String toUppercase = firstLetters.toUpperCase();
-        final String loanOfficerId = String.valueOf(loanOfficer.getId());
-        final String userId = String.valueOf(loanOfficer.getUser().getId());
-        return String.format("%s-0%s-0%s", toUppercase, userId, loanOfficerId);
     }
 
     @Override

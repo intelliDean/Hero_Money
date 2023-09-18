@@ -30,13 +30,6 @@ import static org.springframework.http.MediaType.MULTIPART_FORM_DATA_VALUE;
 public class LoanOfficerController {
     private final LoanOfficerService loanOfficerService;
 
-    @PostMapping("invite")
-    @Operation(summary = "Invite Loan Officer")
-    public ResponseEntity<String> inviteLoanOfficer(
-            @RequestBody @Valid InviteRequest request
-    ) {
-        return ResponseEntity.ok(loanOfficerService.inviteAdmin(request));
-    }
 
     @PostMapping(value = "update", consumes = MULTIPART_FORM_DATA_VALUE)
     @Operation(summary = "Update Loan Officer profile")

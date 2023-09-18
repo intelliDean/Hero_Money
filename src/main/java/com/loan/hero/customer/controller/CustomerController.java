@@ -78,10 +78,7 @@ public class CustomerController {
         );
     }
 
-    @PostMapping(
-            value = "update",
-            consumes = MULTIPART_FORM_DATA_VALUE
-    )
+    @PostMapping(value = "update", consumes = MULTIPART_FORM_DATA_VALUE)
     @PreAuthorize("hasAuthority('COSTUMER')")
     @Operation(summary = "Complete customer profile")
     public ResponseEntity<Customer> updateCustomerProfile(

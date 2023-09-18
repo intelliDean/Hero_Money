@@ -1,4 +1,4 @@
-package com.loan.hero.notification;
+package com.loan.hero.init_token;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

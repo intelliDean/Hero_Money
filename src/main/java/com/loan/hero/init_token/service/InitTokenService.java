@@ -1,7 +1,7 @@
-package com.loan.hero.notification.interfaces;
+package com.loan.hero.init_token.service;
 
 
-import com.loan.hero.notification.InitToken;
+import com.loan.hero.init_token.InitToken;
 
 import java.util.Optional;
 
