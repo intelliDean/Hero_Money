@@ -34,6 +34,30 @@ public class HeroAuthenticationProvider implements AuthenticationProvider {
         }
         throw new BadCredentialsException("Incorrect username or password");
     }
+//
+//    public Authentication authenticate(Authentication authentication) throws AuthenticationException {
+//    try {
+//        String requestEmail = authentication.getPrincipal().toString();
+//        String requestPassword = authentication.getCredentials().toString();
+//
+//        UserDetails userDetails = userDetailsService.loadUserByUsername(requestEmail);
+//        String storedPassword = userDetails.getPassword();
+//
+//        if (passwordEncoder.matches(requestPassword, storedPassword)) {
+//            return new UsernamePasswordAuthenticationToken(
+//                    userDetails,
+//                    null,
+//                    userDetails.getAuthorities()
+//            );
+//        }
+//    } catch (UsernameNotFoundException ex) {
+//        // Handle the case where the user is not found
+//        throw new BadCredentialsException("Incorrect username or password");
+//    }
+//
+//    throw new BadCredentialsException("Incorrect username or password");
+//}
+
 
     @Override
     public boolean supports(Class<?> authentication) {

@@ -111,10 +111,8 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public AuthenticationToken register(SignUpRequest signUpRequest) {
-        final InitToken initToken = initTokenService.findByTokenAndEmail(
-                signUpRequest.getToken(),
-                signUpRequest.getEmail()
-        ).orElseThrow(HeroException::new);
+        final InitToken initToken = initTokenService.findByTokenAndEmail(signUpRequest.getToken(), signUpRequest.getEmail())
+                .orElseThrow(()-> new HeroException("Invalid token: could not be found"));
         int age = getAge(signUpRequest.getDateOfBirth());
         if (!initTokenService.isValid(initToken) || age < 18) {
             throw new HeroException("Invalid credentials");

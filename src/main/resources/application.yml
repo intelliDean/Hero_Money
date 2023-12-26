@@ -1,41 +1,62 @@
 spring:
   datasource:
-    url: jdbc:${DATABASE}://${DB_HOST}:${DB_PORT}/${DB_NAME}
-    username: ${DB_USERNAME}
-    password: ${DB_PASSWORD}
+    url: jdbc:${DATABASE:postgresql}://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:hero_db}
+    username: ${DB_USERNAME:postgres}
+    password: ${DB_PASSWORD:"@Tiptop2059!"}
   jpa:
     hibernate:
       ddl-auto: update
-    show-sql: true
+    #    show-sql: true
     properties:
       hibernate:
         format_sql: false
-        dialect: ${DIALECT}
-  profiles:
-    active: dev
+        dialect: ${DIALECT:org.hibernate.dialect.PostgreSQLDialect}
+#  profiles:
+#    active: dev
+#springdoc:
+#  swagger-ui:
+#    path: /swagger-ui.html
+#    filter: true
+#    tagsSorter: alpha
 springdoc:
+  api-docs:
+    enabled: true  # Enable or disable the generation of OpenAPI documentation
   swagger-ui:
-    path: /swagger-ui.html
-    filter: true
-    tagsSorter: alpha
+    path: /swagger-ui.html  # Path to access Swagger UI
+    filter: true  # Enable filtering in Swagger UI
+    tagsSorter: alpha  # Sort tags alphabetically
+    operationsSorter: alpha  # Sort API operations alphabetically
+    doc-expansion: none  # Controls how the API listing is displayed (none, list, full)
+    deep-linking: true  # Enable or disable deep linking for tags and operations
+    display-request-duration: true  # Display the request duration in Swagger UI
+    default-model-rendering: example  # Controls how the model is displayed in Swagger UI (example, model)
+    default-model-expand-depth: 1  # Default model expansion depth
+    show-extensions: true  # Show extensions in the Swagger UI
+    url: /v3/api-docs  # URL of the OpenAPI documentation (used when Swagger UI is served from a different server)
+    display-operation-id: true
+    default-model-tab-index: 1  # Default model tab index
+    show-request-body: always  # Controls when to show the request body (always, never, with_input)
+    show-mutated-request: false  # Show the mutated request instead of the original one
+    show-common-errors: true  # Show common HTTP errors in the response
+    display-query-params-without-oauth2: true  # Display query parameters even if OAuth2 is used
 server:
   port: 8181
 
 sendinblue:
   mail:
-    api_key: ${sendinblue_api}
-    url: ${sendinblue_mail}
+    api_key: ${sendinblue_api:api}
+    url: ${sendinblue_mail:https://api.sendinblue.com/v3/smtp/email}
 
 app:
-  name: ${app_name}
-  email: ${app_email}
+  name: ${app_name:Hero Money}
+  email: ${app_email:info@heromoney.com}
 
-access_expiration: ${access_token}
-refresh_expiration: ${refresh_token}
+access_expiration: ${access_token:10800}
+refresh_expiration: ${refresh_token:604800}
 
 
-cloudinary_name: ${cloud_name}
-cloudinary_api_key: ${cloud_key}
-cloudinary_api_secret: ${cloud_secret}
+cloudinary_name: ${cloud_name:ddgm9zdnr}
+cloudinary_api_key: ${cloud_key:249119262672761}
+cloudinary_api_secret: ${cloud_secret:IGsVcz3MwMDrUmd-kyahxGL-x1Y}
 
-Jwt_Secret_Key: ${SECRET_KEY}
+Jwt_Secret_Key: ${SECRET_KEY:OIDCu9SZ9U5LGqF6mW12K LuSxO70GPfqw3W2fh4uciXEi17bxij7229eNsVXRZnpsOa7pMb8gGbfJdl8YmnZ5uuaA43RPRH1v8720TWYUwAST90hzdLdzVYh54WXm44}

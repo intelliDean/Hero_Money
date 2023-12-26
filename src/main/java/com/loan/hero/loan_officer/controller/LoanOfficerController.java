@@ -5,7 +5,6 @@ import com.loan.hero.auth.security.utility.AuthenticationToken;
 import com.loan.hero.loan.data.models.Loan;
 import com.loan.hero.loan.data.models.LoanStatus;
 import com.loan.hero.loan_officer.data.dto.request.AgreementRequest;
-import com.loan.hero.loan_officer.data.dto.request.InviteRequest;
 import com.loan.hero.loan_officer.data.dto.request.OfficerRequest;
 import com.loan.hero.loan_officer.data.dto.request.UpdateLoanRequest;
 import com.loan.hero.loan_officer.data.models.LoanOfficer;

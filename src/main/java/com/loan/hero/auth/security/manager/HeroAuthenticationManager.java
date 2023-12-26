@@ -1,5 +1,6 @@
 package com.loan.hero.auth.security.manager;
 
+import com.loan.hero.exceptions.HeroException;
 import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -13,6 +14,9 @@ public class HeroAuthenticationManager implements AuthenticationManager {
     private final AuthenticationProvider authenticationProvider;
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-        return authenticationProvider.authenticate(authentication);
+        if (authenticationProvider.supports(authentication.getClass())) {
+            return authenticationProvider.authenticate(authentication);
+        }
+        throw new HeroException("Unsupported authentication");
     }
 }

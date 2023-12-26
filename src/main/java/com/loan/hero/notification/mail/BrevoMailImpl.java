@@ -25,9 +25,7 @@ public class BrevoMailImpl implements MailService {
 
     @Override
     public String sendMail(EmailRequest emailRequest) {
-        emailRequest.setSender(
-                new MailInfo(appName, appEmail)
-        );
+        emailRequest.setSender(new MailInfo(appName, appEmail));
 
         return WebClient.builder()
                 .baseUrl(mailUrl)

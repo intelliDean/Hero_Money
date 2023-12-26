@@ -22,6 +22,7 @@ import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
 import java.util.Collections;
+import java.util.Set;
 
 @Slf4j
 @Service
@@ -36,7 +37,7 @@ public class SuperAdminServiceImpl {
 
     @PostConstruct
     private void createSuperAdmin() {
-        if (superAdminRepository.findAll().isEmpty()) {
+        if (!superAdminRepository.existsByEmail("dean@gmail.com")) {
             superAdminRepository.save(
                     User.builder()
                             .firstName("Michael")
@@ -45,7 +46,8 @@ public class SuperAdminServiceImpl {
                             .userImage("my image")
                             .address(new Address())
                             .enabled(true)
-                            .roles(Collections.singleton(Role.SUPER_ADMIN))
+                          //  .roles(Collections.singleton(Role.SUPER_ADMIN))
+                            .roles(Set.of(Role.SUPER_ADMIN, Role.ADMIN))
                             .password(passwordEncoder.encode("password"))
                             .build()
             );

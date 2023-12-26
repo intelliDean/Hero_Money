@@ -8,8 +8,8 @@ import java.util.Optional;
 
 public interface InitTokenRepository extends JpaRepository<InitToken, Long> {
     @Query("""
-            select token from InitToken token
-            where token.email = :email and token.token = :token and token.revoked = false
+            select tok from InitToken  tok
+            where tok.token = :token and tok.email = :email and tok.revoked = false
             """)
     Optional<InitToken> findValidByTokenAndEmail(String token, String email);
 

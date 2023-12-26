@@ -6,9 +6,9 @@ import com.loan.hero.customer.data.dto.request.Decision;
 import com.loan.hero.customer.data.dto.request.InitRequest;
 import com.loan.hero.customer.data.dto.request.SignUpRequest;
 import com.loan.hero.customer.data.dto.request.UpdateCustomerRequest;
-import com.loan.hero.customer.data.models.enums.AgreementDecision;
 import com.loan.hero.customer.data.dto.response.InitResponse;
 import com.loan.hero.customer.data.models.Customer;
+import com.loan.hero.customer.data.models.enums.AgreementDecision;
 import com.loan.hero.customer.services.CustomerService;
 import com.loan.hero.loan.data.dto.request.LoanRequest;
 import com.loan.hero.loan.data.dto.response.LoanDTO;
@@ -60,7 +60,11 @@ public class CustomerController {
             consumes = MULTIPART_FORM_DATA_VALUE
     )
     @PreAuthorize("hasAuthority('COSTUMER')")
-    @Operation(summary = "Upload customer image")
+    @Operation(
+            summary = "Upload customer image",
+            description = "This endpoint is used to upload user image",
+            operationId = "#FezU1"
+    )
     public ResponseEntity<String> uploadCustomerImage(
             @ModelAttribute MultipartFile file
     ) {
@@ -113,6 +117,7 @@ public class CustomerController {
                 customerService.viewLoanStatus(loanId)
         );
     }
+
     @GetMapping("all_status")
     @PreAuthorize("hasAuthority('COSTUMER')")
     @Operation(summary = "Get all status of a customer loan application")

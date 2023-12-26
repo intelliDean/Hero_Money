@@ -1,7 +1,7 @@
 package com.loan.hero.auth.user.controllers;
 
-import com.loan.hero.auth.user.data.dtos.request.LoginRequest;
 import com.loan.hero.auth.user.data.dtos.UserDTO;
+import com.loan.hero.auth.user.data.dtos.request.LoginRequest;
 import com.loan.hero.auth.user.service.UserService;
 import com.loan.hero.exceptions.HeroException;
 import io.swagger.v3.oas.annotations.Operation;
@@ -11,7 +11,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
