@@ -8,6 +8,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
@@ -19,44 +20,25 @@ public class HeroAuthenticationProvider implements AuthenticationProvider {
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-        final String requestEmail = authentication.getPrincipal().toString();
-        final String requestPassword = authentication.getCredentials().toString();
+    try {
+        String requestEmail = authentication.getPrincipal().toString();
+        String requestPassword = authentication.getCredentials().toString();
 
-        final UserDetails userDetails = userDetailsService.loadUserByUsername(requestEmail);
-        final String email = userDetails.getUsername();
-        final String password = userDetails.getPassword();
-        if (passwordEncoder.matches(requestPassword, password)) {
+        UserDetails userDetails = userDetailsService.loadUserByUsername(requestEmail);
+        String storedPassword = userDetails.getPassword();
+
+        if (passwordEncoder.matches(requestPassword, storedPassword)) {
             return new UsernamePasswordAuthenticationToken(
-                    email,
-                    password,
+                    userDetails,
+                    null,
                     userDetails.getAuthorities()
             );
         }
-        throw new BadCredentialsException("Incorrect username or password");
+    } catch (UsernameNotFoundException ex) {
+        throw new BadCredentialsException(ex.getMessage());
     }
-//
-//    public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-//    try {
-//        String requestEmail = authentication.getPrincipal().toString();
-//        String requestPassword = authentication.getCredentials().toString();
-//
-//        UserDetails userDetails = userDetailsService.loadUserByUsername(requestEmail);
-//        String storedPassword = userDetails.getPassword();
-//
-//        if (passwordEncoder.matches(requestPassword, storedPassword)) {
-//            return new UsernamePasswordAuthenticationToken(
-//                    userDetails,
-//                    null,
-//                    userDetails.getAuthorities()
-//            );
-//        }
-//    } catch (UsernameNotFoundException ex) {
-//        // Handle the case where the user is not found
-//        throw new BadCredentialsException("Incorrect username or password");
-//    }
-//
-//    throw new BadCredentialsException("Incorrect username or password");
-//}
+    throw new BadCredentialsException("Incorrect username or password");
+}
 
 
     @Override

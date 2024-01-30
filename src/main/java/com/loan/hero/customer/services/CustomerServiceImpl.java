@@ -14,24 +14,24 @@ import com.loan.hero.customer.data.dto.request.Decision;
 import com.loan.hero.customer.data.dto.request.InitRequest;
 import com.loan.hero.customer.data.dto.request.SignUpRequest;
 import com.loan.hero.customer.data.dto.request.UpdateCustomerRequest;
-import com.loan.hero.customer.data.models.enums.AgreementDecision;
 import com.loan.hero.customer.data.dto.response.InitResponse;
 import com.loan.hero.customer.data.models.Customer;
+import com.loan.hero.customer.data.models.enums.AgreementDecision;
 import com.loan.hero.customer.data.repositories.CustomerRepository;
 import com.loan.hero.exceptions.HeroException;
 import com.loan.hero.exceptions.UserNotFoundException;
 import com.loan.hero.hero_utility.HeroUtilities;
+import com.loan.hero.init_token.InitToken;
+import com.loan.hero.init_token.service.InitTokenService;
 import com.loan.hero.loan.data.dto.request.LoanRequest;
 import com.loan.hero.loan.data.dto.response.LoanDTO;
 import com.loan.hero.loan.data.models.Loan;
 import com.loan.hero.loan.data.models.LoanDocuments;
 import com.loan.hero.loan.data.models.LoanStatus;
 import com.loan.hero.loan.service.LoanService;
-import com.loan.hero.init_token.InitToken;
+import com.loan.hero.notification.mail.MailService;
 import com.loan.hero.notification.mail.dto.EmailRequest;
 import com.loan.hero.notification.mail.dto.MailInfo;
-import com.loan.hero.init_token.service.InitTokenService;
-import com.loan.hero.notification.mail.MailService;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -70,6 +70,7 @@ public class CustomerServiceImpl implements CustomerService {
     private final MailService mailService;
     private final JwtService jwtService;
 
+
     @Override
     public InitResponse initAccess(InitRequest initRequest) {
         if (customerRepository.existsByUserEmail(initRequest.getEmail())) {
@@ -81,7 +82,7 @@ public class CustomerServiceImpl implements CustomerService {
         throw new HeroException("Registration failed");
     }
 
-    private String sendSignUpMail(String email)  {
+    private String sendSignUpMail(String email) {
         final String token = HeroUtilities.generateToken(7);
         initTokenService.saveToken(
                 InitToken.builder()
@@ -112,7 +113,7 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public AuthenticationToken register(SignUpRequest signUpRequest) {
         final InitToken initToken = initTokenService.findByTokenAndEmail(signUpRequest.getToken(), signUpRequest.getEmail())
-                .orElseThrow(()-> new HeroException("Invalid token: could not be found"));
+                .orElseThrow(() -> new HeroException("Invalid token: could not be found"));
         int age = getAge(signUpRequest.getDateOfBirth());
         if (!initTokenService.isValid(initToken) || age < 18) {
             throw new HeroException("Invalid credentials");
@@ -302,7 +303,7 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     private User updateUser(UpdateCustomerRequest request, Customer customer) {
-       final User user = customer.getUser();
+        final User user = customer.getUser();
         user.setUserImage(uploadImage(request.getUserImage()));
         user.setPhoneNumber(request.getPhoneNumber());
         user.setAddress(

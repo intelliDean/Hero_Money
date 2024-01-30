@@ -1,4 +1,4 @@
-package com.loan.hero.auth.security.user;
+package com.loan.hero.auth.security.user_details;
 import com.loan.hero.auth.user.data.models.User;
 import com.loan.hero.auth.user.service.UserService;
 import lombok.AllArgsConstructor;

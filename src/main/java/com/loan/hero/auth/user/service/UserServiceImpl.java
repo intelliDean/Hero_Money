@@ -1,7 +1,7 @@
 package com.loan.hero.auth.user.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.loan.hero.auth.security.user.AuthenticatedUser;
+import com.loan.hero.auth.security.user_details.AuthenticatedUser;
 import com.loan.hero.auth.security.utility.AuthenticationToken;
 import com.loan.hero.auth.security.utility.JwtService;
 import com.loan.hero.auth.user.data.dtos.UserDTO;

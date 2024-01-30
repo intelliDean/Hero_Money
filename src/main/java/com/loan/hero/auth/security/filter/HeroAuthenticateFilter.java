@@ -1,7 +1,7 @@
 package com.loan.hero.auth.security.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.loan.hero.auth.security.user.AuthenticatedUser;
+import com.loan.hero.auth.security.user_details.AuthenticatedUser;
 import com.loan.hero.auth.security.utility.AuthenticationToken;
 import com.loan.hero.auth.security.utility.JwtService;
 import com.loan.hero.auth.user.data.models.HeroToken;
@@ -72,24 +72,12 @@ public class HeroAuthenticateFilter extends UsernamePasswordAuthenticationFilter
         authResult.getAuthorities().forEach(
                 role -> claims.put("claim", role)
         );
-//
-//        Map<String, Object> claims = authResult.getAuthorities()
-//                .stream()
-//                .collect(Collectors.toMap(role -> "true", GrantedAuthority::getAuthority));
-//
-//
 
-//        Map<String, Object> claims = authResult.getAuthorities()
-//    .stream()
-//    .collect(Collectors.groupingBy(role -> "claim", Collectors.mapping(GrantedAuthority::getAuthority, Collectors.toList())));
-
-        final String email = authResult.getPrincipal().toString();
+        final AuthenticatedUser authenticatedUser = (AuthenticatedUser) authResult.getPrincipal();
+        final String email = authenticatedUser.getUsername();
 
         final String accessToken = jwtService.generateAccessToken(claims, email);
         final String refreshToken = jwtService.generateRefreshToken(email);
-
-        final AuthenticatedUser authenticatedUser =
-                (AuthenticatedUser) userDetailsService.loadUserByUsername(email);
 
         final HeroToken heroToken = HeroToken.builder()
                 .user(authenticatedUser.getUser())
@@ -108,48 +96,4 @@ public class HeroAuthenticateFilter extends UsernamePasswordAuthenticationFilter
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         objectMapper.writeValue(response.getOutputStream(), authenticationToken);
     }
-
-
-//    protected void successfulAuthentication(
-//            HttpServletRequest request,
-//            HttpServletResponse response,
-//            FilterChain chain,
-//            Authentication authResult) throws IOException {
-//
-//        // Extract claims from authorities using streams
-//        Map<String, Object> claims = authResult.getAuthorities()
-//                .stream()
-//                .collect(Collectors.toMap(GrantedAuthority::getAuthority, role -> "true"));
-//
-//
-//        String email = authResult.getName(); // Get email directly from Authentication
-//
-//        // Generate tokens
-//        String accessToken = jwtService.generateAccessToken(claims, email);
-//        String refreshToken = jwtService.generateRefreshToken(email);
-//
-//        // Build HeroToken using a builder
-//        HeroToken heroToken = HeroToken.builder()
-//                .user(((AuthenticatedUser) authResult.getPrincipal()).getUser())
-//                .refreshToken(refreshToken)
-//                .accessToken(accessToken)
-//                .revoked(false)
-//                .build();
-//
-//        heroTokenService.saveToken(heroToken);
-//
-//        // Build AuthenticationToken using a builder
-//        AuthenticationToken authenticationToken = AuthenticationToken.builder()
-//                .accessToken(accessToken)
-//                .refreshToken(refreshToken)
-//                .build();
-//
-//        response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-//
-//        // Use try-with-resources to ensure proper handling of the output stream
-//        try (OutputStream outputStream = response.getOutputStream()) {
-//            objectMapper.writeValue(outputStream, authenticationToken);
-//        }
-//    }
-
 }

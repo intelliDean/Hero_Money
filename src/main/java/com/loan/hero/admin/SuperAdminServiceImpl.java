@@ -1,8 +1,8 @@
-package com.loan.hero.admin.services;
+package com.loan.hero.admin;
 
 import com.loan.hero.auth.user.data.models.Address;
-import com.loan.hero.auth.user.data.models.Role;
 import com.loan.hero.auth.user.data.models.User;
+import com.loan.hero.auth.user.data.repositories.UserRepository;
 import com.loan.hero.hero_utility.HeroUtilities;
 import com.loan.hero.init_token.InitToken;
 import com.loan.hero.init_token.service.InitTokenService;
@@ -22,7 +22,8 @@ import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
 import java.util.Collections;
-import java.util.Set;
+
+import static com.loan.hero.auth.user.data.models.Role.SUPER_ADMIN;
 
 @Slf4j
 @Service
@@ -32,13 +33,13 @@ public class SuperAdminServiceImpl {
     private final InitTokenService initTokenService;
     private final TemplateEngine templateEngine;
     private final MailService mailService;
-    private final SuperAdminRepository superAdminRepository;
+    private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
     @PostConstruct
     private void createSuperAdmin() {
-        if (!superAdminRepository.existsByEmail("dean@gmail.com")) {
-            superAdminRepository.save(
+        if (userRepository.findAll().isEmpty()) {
+            userRepository.save(
                     User.builder()
                             .firstName("Michael")
                             .lastName("Dean")
@@ -46,9 +47,8 @@ public class SuperAdminServiceImpl {
                             .userImage("my image")
                             .address(new Address())
                             .enabled(true)
-                          //  .roles(Collections.singleton(Role.SUPER_ADMIN))
-                            .roles(Set.of(Role.SUPER_ADMIN, Role.ADMIN))
-                            .password(passwordEncoder.encode("password"))
+                            .roles(Collections.singleton(SUPER_ADMIN))
+                            .password(passwordEncoder.encode("@Bean1234"))
                             .build()
             );
         }
@@ -56,8 +56,7 @@ public class SuperAdminServiceImpl {
 
     @PreDestroy
     private void deleteSuperAdmin() {
-        superAdminRepository.findByEmail("dean@gmail.com")
-                .ifPresent(superAdminRepository::delete);
+        //I removed the code here cos it's no longer needed
     }
 
     public String inviteAdmin(InviteRequest request) {
