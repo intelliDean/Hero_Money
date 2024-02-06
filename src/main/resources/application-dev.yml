@@ -8,7 +8,7 @@ DIALECT : org.hibernate.dialect.PostgreSQLDialect
 
 SECRET_KEY: OIDCu9SZ9U5LGqF6mW12K LuSxO70GPfqw3W2fh4uciXEi17bxij7229eNsVXRZnpsOa7pMb8gGbfJdl8YmnZ5uuaA43RPRH1v8720TWYUwAST90hzdLdzVYh54WXm44
 
-
+sendinblue_api: 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
 sendinblue_mail: https://api.sendinblue.com/v3/smtp/email
 
 app_name: Hero Money
