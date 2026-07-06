@@ -2,32 +2,80 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Application Mail</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loan Application Status Update</title>
 </head>
-<body>
-<h4>Dear <span th:text="${name}"></span>,</h4><br/><br/>
-<p>
-    Thank you for applying for a loan with Hero Money. We have received your application for a loan amount of
-    <strong>₦<span
-            th:text="${amount}"></span></strong>. We
-    would like to inform you that the status of your application is currently <strong><span
-        th:text="${status}"></span></strong>. Our dedicated loan officer is
-    currently reviewing your application and will provide you with an update as soon as the review process is complete.<br>
-</p>
-<p>
-    We understand the importance of your loan application and assure you that our team is working diligently to process
-    it efficiently. If you have any questions or require further information, please feel free to reach out to us. We
-    are here to assist you throughout the application process.<br>
-</p>
-<p>
-    Thank you for choosing Hero Money as your financial partner. We appreciate your patience and look forward to serving
-    your financial needs.<br><br>
-</p>
+<body style="margin: 0; padding: 0; background-color: #f8fafc; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">
+    <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background-color: #f8fafc; padding: 40px 10px;">
+        <tr>
+            <td align="center">
+                <table role="presentation" width="100%" style="max-width: 600px; background-color: #ffffff; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05); border: 1px solid #e2e8f0;" cellspacing="0" cellpadding="0">
+                    <!-- Top Gradient Accent Bar -->
+                    <tr>
+                        <td style="background: linear-gradient(135deg, #4f46e5 0%, #312e81 100%); height: 6px;"></td>
+                    </tr>
+                    
+                    <!-- Header -->
+                    <tr>
+                        <td style="padding: 30px 40px 20px; text-align: left;">
+                            <span style="font-size: 24px; font-weight: 800; color: #312e81; letter-spacing: -0.5px; font-family: sans-serif;">Xpress</span>
+                            <span style="font-size: 24px; font-weight: 800; color: #4f46e5;">.</span>
+                        </td>
+                    </tr>
 
-<p>
-    Best regards,<br/><br/>
-    <strong>Adewunmi Ajoke</strong><br/>
-    Product Manager
-</p>
+                    <!-- Body Content -->
+                    <tr>
+                        <td style="padding: 0 40px 30px; color: #334155; font-size: 16px; line-height: 1.7;">
+                            <h2 style="color: #0f172a; font-size: 20px; font-weight: 700; margin-top: 0; margin-bottom: 16px;">Dear <span th:text="${name}" style="color: #4f46e5; font-weight: 600;">Customer</span>,</h2>
+                            
+                            <p style="margin: 0 0 16px;">Thank you for choosing Xpress for your financial needs. We have received and logged your loan application.</p>
+                            
+                            <!-- Application Status Details Card -->
+                            <div style="background-color: #f8fafc; border-radius: 12px; padding: 24px; margin: 30px 0; border: 1px solid #e2e8f0;">
+                                <table role="presentation" width="100%" cellspacing="0" cellpadding="0">
+                                    <tr>
+                                        <td style="padding-bottom: 16px;">
+                                            <span style="font-size: 12px; text-transform: uppercase; letter-spacing: 1px; color: #64748b; font-weight: 600; display: block; margin-bottom: 4px;">Loan Amount</span>
+                                            <span style="font-size: 22px; font-weight: 800; color: #1e293b;">₦<span th:text="${amount}">0.00</span></span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="border-top: 1px solid #e2e8f0; padding-top: 16px;">
+                                            <span style="font-size: 12px; text-transform: uppercase; letter-spacing: 1px; color: #64748b; font-weight: 600; display: block; margin-bottom: 8px;">Application Status</span>
+                                            <!-- Elegant status pill -->
+                                            <span th:text="${status}" style="display: inline-block; padding: 6px 12px; background-color: #e0e7ff; border: 1px solid #c7d2fe; border-radius: 9999px; font-size: 13px; font-weight: 700; color: #4338ca; text-transform: uppercase;">PENDING</span>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                            
+                            <p style="margin: 0 0 24px;">Our loan officers are currently reviewing your application and documentation. We will notify you via email as soon as the assessment is complete and your agreement is ready to review.</p>
+                            
+                            <p style="margin: 0 0 24px;">If you have any questions or need to upload additional documentation, please reach out to our customer support team.</p>
+                            
+                            <!-- Signature -->
+                            <hr style="border: 0; border-top: 1px solid #e2e8f0; margin: 30px 0 20px;" />
+                            <table role="presentation" width="100%" cellspacing="0" cellpadding="0">
+                                <tr>
+                                    <td>
+                                        <p style="margin: 0; font-size: 15px; color: #475569; font-weight: 600;">Adewunmi Ajoke</p>
+                                        <p style="margin: 0; font-size: 13px; color: #64748b;">Product Manager, Xpress</p>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    
+                    <!-- Footer -->
+                    <tr>
+                        <td style="background-color: #f8fafc; padding: 24px 40px; text-align: center; font-size: 12px; color: #94a3b8; border-top: 1px solid #e2e8f0;">
+                            <p style="margin: 0 0 4px;">This is a system generated update for your loan application.</p>
+                            <p style="margin: 0;">&copy; 2026 Xpress Inc. All rights reserved.</p>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
 </body>
 </html>

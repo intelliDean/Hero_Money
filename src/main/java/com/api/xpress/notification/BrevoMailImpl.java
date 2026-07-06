@@ -1,20 +1,22 @@
 package com.api.xpress.notification;
 
-import com.api.xpress.exceptions.XpressException;
-import com.api.xpress.notification.dto.EmailRequest;
-import com.api.xpress.notification.dto.MailInfo;
-import com.api.xpress.notification.interfaces.MailService;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
+import com.api.xpress.exceptions.XpressException;
+import com.api.xpress.notification.dto.EmailRequest;
+import com.api.xpress.notification.dto.MailInfo;
+import com.api.xpress.notification.interfaces.MailService;
+
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
 
 @Slf4j
 @Service
-@Profile("dev")
+@Profile("!dev")
 @RequiredArgsConstructor
 public class BrevoMailImpl implements MailService {
     @Value("${sendinblue.mail.api_key}")

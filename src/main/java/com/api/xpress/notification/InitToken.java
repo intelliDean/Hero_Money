@@ -1,11 +1,21 @@
 package com.api.xpress.notification;
 
-import jakarta.persistence.*;
-import lombok.*;
+import java.time.LocalDateTime;
+
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import java.time.LocalDateTime;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Setter
 @Getter
@@ -27,7 +37,7 @@ public class InitToken {
 
     @CreatedDate
     @Column(nullable = false)
-    private LocalDateTime generatedAt = LocalDateTime.now();
+    private LocalDateTime generatedAt;
 
     @Column(nullable = false)
     private LocalDateTime expireAt;
