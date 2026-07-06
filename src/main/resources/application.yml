@@ -51,13 +51,13 @@ app:
   email: ${APP_EMAIL:oneblockhq@gmail.com}
 
 token:
-  secret: ${SECRET_KEY:OIDCu9SZ9U5LGqF6mW12KxLuSxO70GPfqw3W2fh4uciXEi17bxij7229eNsVXRZnpsOa7pMb8gGbfJdl8YmnZ5uuaA43RPRH1v8720TWYUwAST90hzdLdzVYh54WXm44}
+  secret: ${SECRET_KEY}
   expiration:
     access: ${ACCESS_TOKEN_EXP:3}
     refresh: ${REFRESH_TOKEN_EXP:168}
 
 
 cloudinary:
-  name: ${CLOUDINARY_NAME:ddgm9zdnr}
-  api_key: ${CLOUDINARY_KEY:249119262672761}
-  api_secret: ${CLOUDINARY_SECRET:IGsVcz3MwMDrUmd-kyahxGL-x1Y}
+  name: ${CLOUDINARY_NAME}
+  api_key: ${CLOUDINARY_KEY}
+  api_secret: ${CLOUDINARY_SECRET}
