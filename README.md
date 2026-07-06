@@ -1,6 +1,6 @@
-# Xpress (formerly Hero Money)
+# Xpress Loan
 
-Xpress is a secure loan application and processing API platform built with **Spring Boot 3**. It provides structured workflows for customers to apply for loans and for loan officers to review, manage, and generate loan agreements.
+Xpress is a secure loan application and processing API platform built with **Spring Boot 4**. It provides structured workflows for customers to apply for loans and for loan officers to review, manage, and generate loan agreements.
 
 ## Features
 
@@ -28,7 +28,7 @@ Xpress is a secure loan application and processing API platform built with **Spr
 ---
 
 ## Technical Stack
-* **Language/Framework**: Java 17+ / Spring Boot 3
+* **Language/Framework**: Java 17+ / Spring Boot 4
 * **Database**: PostgreSQL (validated and managed via Flyway Migrations)
 * **Email Service**: Brevo (Sendinblue) API
 * **Storage**: Cloudinary API
